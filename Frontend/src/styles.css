@@ -1,6 +1,6 @@
 :root{
-    --box-shadow : 1px 1px 5px 0.5px #673AB7;
-    --border: 0.2rem solid #0000001a;
+    --box-shadow : 1px 1px 3px 1px #746f6f;
+    --myPrimary: #FE9A00;
 }
 *, body{
     font-family: 'Poppins', sans-serif;

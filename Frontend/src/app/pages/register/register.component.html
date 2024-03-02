@@ -1,11 +1,10 @@
-<!-- login.component.html -->
-
 <div class="container-fluid h-100">
     <div class="row h-100">
+
       <div class="col-md-6 d-flex align-items-center justify-content-center bg-light">
-        <!-- Replace 'your-image-url' with the URL of your image -->
-        <img src="../../../assets/banner/loginBanner.png" alt="Login Image" class="img-fluid w-100 h-100">
+          <img src="../../../assets/banner/loginBanner.png" alt="Login Image" class="img-fluid w-100 h-100">
       </div>
+
       <div class="col-md-6 d-flex align-items-center justify-content-center">
         <div class="card w-100 mt-2">
           <div class="card-header bg-danger">
@@ -19,12 +18,13 @@
                   <div class="form-group">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Name:</mat-label>
-                        <input matInput type="text"  formControlName="name" required>
+                        <input matInput type="text"  formControlName="name">
                         @if(registerForm.controls.name.errors?.required){
                           <mat-error>
                             This Field is Required
                           </mat-error>
-                        }@else if(registerForm.controls.name.errors?.pattern){
+                        }
+                        @else if(registerForm.controls.name.errors?.pattern){
                           <mat-error>
                             Invalid Name
                           </mat-error>
@@ -35,7 +35,7 @@
                   <div class="form-group">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Email: </mat-label>
-                        <input matInput type="text" formControlName="email" required>
+                        <input matInput type="text" formControlName="email" >
                         @if(registerForm.controls.email.errors?.required){
                           <mat-error>
                             This Field is Required
@@ -50,7 +50,7 @@
                   <div class="form-group">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Password: </mat-label>
-                        <input matInput type="text" formControlName="password" required>
+                        <input matInput type="password" formControlName="password" >
                         @if(registerForm.controls.password.errors?.required){
                           <mat-error>
                             This Field is Required
@@ -61,7 +61,7 @@
                   <div class="form-group">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Phone: </mat-label>
-                        <input matInput type="text" formControlName="phone" required>
+                        <input matInput type="text" formControlName="phone" >
                         @if(registerForm.controls.phone.errors?.required){
                           <mat-error>
                             This Field is Required

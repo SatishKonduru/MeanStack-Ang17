@@ -8,8 +8,8 @@
       </div>
       <div class="col-md-6 d-flex align-items-center justify-content-center">
         <div class="card w-100 mt-2">
-          <div class="card-header bg-warning">
-            <h5 class="card-title">Register</h5>
+          <div class="card-header bg-danger">
+            <h6 class="card-title text-center text-white ">Register</h6>
           </div>
           <div class="card-body">
             <form [formGroup]="registerForm">
@@ -18,32 +18,65 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <mat-form-field appearance="outline" style="width: 100%;">
-                        <mat-label>Name: </mat-label>
+                        <mat-label>Name:</mat-label>
                         <input matInput type="text"  formControlName="name" required>
+                        @if(registerForm.controls.name.errors?.required){
+                          <mat-error>
+                            This Field is Required
+                          </mat-error>
+                        }@else if(registerForm.controls.name.errors?.pattern){
+                          <mat-error>
+                            Invalid Name
+                          </mat-error>
+                        }
+                        
                     </mat-form-field>
                   </div>
                   <div class="form-group">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Email: </mat-label>
                         <input matInput type="text" formControlName="email" required>
+                        @if(registerForm.controls.email.errors?.required){
+                          <mat-error>
+                            This Field is Required
+                          </mat-error>
+                        }@else if(registerForm.controls.email.errors?.pattern){
+                          <mat-error>
+                            Invalid email
+                          </mat-error>
+                        }
                     </mat-form-field>
                   </div>
                   <div class="form-group">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Password: </mat-label>
                         <input matInput type="text" formControlName="password" required>
+                        @if(registerForm.controls.password.errors?.required){
+                          <mat-error>
+                            This Field is Required
+                          </mat-error>
+                        }
                     </mat-form-field>
                   </div>
                   <div class="form-group">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Phone: </mat-label>
                         <input matInput type="text" formControlName="phone" required>
+                        @if(registerForm.controls.phone.errors?.required){
+                          <mat-error>
+                            This Field is Required
+                          </mat-error>
+                        }@else if(registerForm.controls.phone.errors?.pattern){
+                          <mat-error>
+                            Invalid phone 
+                          </mat-error>
+                        }
                     </mat-form-field>
                   </div>
                   <div class="form-group">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Apartment: </mat-label>
-                        <input matInput type="text" formControlName="apartment" required>
+                        <input matInput type="text" formControlName="apartment" >
                     </mat-form-field>
                   </div>
                 </div>
@@ -52,36 +85,36 @@
                     <div class="form-group">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Street: </mat-label>
-                            <input matInput type="text" formControlName="street" required>
+                            <input matInput type="text" formControlName="street" >
                         </mat-form-field>
                       </div>
                       <div class="form-group">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>City: </mat-label>
-                            <input matInput type="text" formControlName="city" required>
+                            <input matInput type="text" formControlName="city" >
                         </mat-form-field>
                       </div>
                       <div class="form-group">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>State: </mat-label>
-                            <input matInput type="text" formControlName="state" required>
+                            <input matInput type="text" formControlName="state" >
                         </mat-form-field>
                       </div>
                     <div class="form-group">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Zip: </mat-label>
-                            <input matInput type="text" formControlName="zip" required>
+                            <input matInput type="text" formControlName="zip" >
                         </mat-form-field>
                       </div>
                       <div class="form-group">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Country: </mat-label>
-                            <input matInput type="text" formControlName="country" required>
+                            <input matInput type="text" formControlName="country" >
                         </mat-form-field>
                       </div>
                 </div>
               </div>
-              <button mat-raised-button class="float-end mt-2" color="accent">Register</button>
+              <button mat-stroked-button class="float-end mt-2" (click)="onRegister()">Register</button>
             </form>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularMaterialModule } from '../../modules/angular-material/angular-material.module';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { globalProperties } from '../../shared/globalProperties';
 
 @Component({
   selector: 'app-register',
@@ -20,10 +21,10 @@ export class RegisterComponent implements OnInit{
   ){}
   ngOnInit(): void {
       this.registerForm = this._formBuilder.group({
-        name: [''],
-        email: [''],
-        password:[''],
-        phone: [''],
+        name: ['', [Validators.required, Validators.pattern(globalProperties.nameRegx)]],
+        email: ['', [Validators.required, Validators.pattern(globalProperties.emailRegx)]],
+        password:['', [Validators.required]],
+        phone: ['', [Validators.required, Validators.maxLength(10)]],
         apartment: [''],
         street: [''],
         city: [''],
@@ -31,5 +32,9 @@ export class RegisterComponent implements OnInit{
         zip: [''],
         country: ['']
       })
+  }
+
+  onRegister(){
+    
   }
 }

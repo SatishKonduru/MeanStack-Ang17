@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularMaterialModule } from '../../modules/angular-material/angular-material.module';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RegisterComponent } from '../register/register.component';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +11,9 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
   imports: [
     AngularMaterialModule, 
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RegisterComponent,
+    RouterModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'

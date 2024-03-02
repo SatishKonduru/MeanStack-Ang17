@@ -6,6 +6,8 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 
 
@@ -16,7 +18,9 @@ const materialComponents: any[] = [
   MatBadgeModule,
   MatGridListModule,
   MatCardModule,
-  MatTabsModule
+  MatTabsModule,
+  MatFormFieldModule,
+  MatInputModule
 ]
 @NgModule({
  imports: [materialComponents],

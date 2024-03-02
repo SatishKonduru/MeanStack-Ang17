@@ -5,7 +5,7 @@
         <span><i class="fa fa-heart" aria-hidden="true" style="font-size: 20px;"></i> Wishlist(?)</span>
         <span>About Us</span>
         <span>Contact Us</span>
-        <span><button mat-stroked-button color="warn">Login</button></span>
+        <span><button mat-stroked-button color="warn" [routerLink]="'/login'">Login</button></span>
        </div>
 </mat-toolbar>
 <mat-toolbar class="header">
@@ -13,7 +13,7 @@
             <img src="../../../assets/images/mean.png">
         </span>
         <nav class="navbar animate__animated animate__bounceInLeft">
-            <a>Home</a>
+            <a [routerLink]="'/home'">Home</a>
             <a>Men</a>
             <a>Women</a>
             <a>Kids</a>

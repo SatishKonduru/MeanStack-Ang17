@@ -10,7 +10,7 @@ export class SnackbarService {
 
   openSnackbar(msg: string, action: string){
     if(action === 'error'){
-      this._snackbar.open(msg, '', {
+      this._snackbar.open(msg, 'OK', {
         horizontalPosition:'center',
         verticalPosition: 'top',
         duration: 3000,
@@ -18,7 +18,7 @@ export class SnackbarService {
       })
     }
     else{
-      this._snackbar.open(msg, '', {
+      this._snackbar.open(msg, 'OK', {
         horizontalPosition:'center',
         verticalPosition: 'top',
         duration: 3000,

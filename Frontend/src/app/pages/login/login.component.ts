@@ -51,7 +51,7 @@ onLogin(){
       const token = res?.token
       sessionStorage.setItem('token', token)
       this.payload = jwtDecode(token)
-      console.log("Role: ", this.payload.role)
+      // console.log("Role: ", this.payload.role)
       if(this.payload.role && this.payload.role === 'admin')
         this._router.navigate(['/admin/dashboard'])
       else

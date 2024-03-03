@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { globalProperties } from '../../shared/globalProperties';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +29,7 @@ import { globalProperties } from '../../shared/globalProperties';
 export class LoginComponent implements OnInit {
 loginForm : any = FormGroup
 responseMsg: string = ''
+payload: any = {}
 constructor(
   private _formBuilder: FormBuilder, 
   private _userService: UserService,
@@ -48,7 +50,12 @@ onLogin(){
     next: (res: any) => {
       const token = res?.token
       sessionStorage.setItem('token', token)
-      // this._router.navigate(['/admin/dashboard'])
+      this.payload = jwtDecode(token)
+      console.log("Role: ", this.payload.role)
+      if(this.payload.role && this.payload.role === 'admin')
+        this._router.navigate(['/admin/dashboard'])
+      else
+        this._router.navigate(['/'])
     },
     error: (err: any) => {
       if(err.error?.message){

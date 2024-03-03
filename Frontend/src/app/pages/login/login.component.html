@@ -12,7 +12,7 @@
             <form [formGroup]="loginForm">
               <div class="row">
                 <!-- First Column -->
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <div class="form-group">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Email: </mat-label>
@@ -22,21 +22,41 @@
                   <div class="form-group">
                     <mat-form-field appearance="outline" style="width: 100%;">
                         <mat-label>Password: </mat-label>
-                        <input matInput type="text" formControlName="password" required>
+                        <input matInput type="password" formControlName="password" required>
                     </mat-form-field>
                   </div>
                  
                  
                 </div>
                 <!-- Second Column -->
-                <div class="col-md-2">
+                <!-- <div class="col-md-2">
                   <div class="justify-content-center align-content-center mt-5">|</div>
                 
                 </div>
-                <div class="col-md-4">
-                    <button mat-raised-button color="primary" class="mt-5">Google</button>
+                <div class="col-md-4"> -->
+                    <!-- <button mat-raised-button color="primary" class="mt-5">Google</button> -->
+                    <!-- Google Login -->
                    
-                  </div>
+                    <!-- <div id="g_id_onload"
+                    data-client_id="579530646004-rasjigimah2to7u8269fm7uf63uihe5c.apps.googleusercontent.com"
+                    data-context="signin"
+                    data-ux_mode="popup"
+                    data-login_uri="http://localhost:3000/mean/v1/user/login"
+                    data-auto_select="true"
+                    data-itp_support="true">
+               </div> -->
+               
+               <!-- <div class="g_id_signin"
+                    data-type="standard"
+                    data-shape="pill"
+                    data-theme="filled_blue"
+                    data-text="signin_with"
+                    data-size="large"
+                    data-locale="en"
+                    data-logo_alignment="left">
+               </div>
+                  </div> -->
+                 
               </div>
               
             </form>

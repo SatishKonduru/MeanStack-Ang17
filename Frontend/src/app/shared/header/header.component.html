@@ -5,7 +5,13 @@
         <span><i class="fa fa-heart" aria-hidden="true" style="font-size: 20px;"></i> Wishlist(?)</span>
         <span>About Us</span>
         <span>Contact Us</span>
-        <span><button mat-stroked-button color="warn" [routerLink]="'/login'">Login</button></span>
+        @if(!user){
+            <span><button mat-stroked-button color="warn" [routerLink]="'/login'">Login</button></span>
+        }
+        @else {
+            <span [matMenuTriggerFor]="userMenu" style="cursor: pointer;">{{user}}</span>
+        }
+        
        </div>
 </mat-toolbar>
 <mat-toolbar class="header bg-danger">
@@ -22,4 +28,9 @@
        
         <span><mat-icon type="button" style="font-size: 30px; margin-right: 2rem;padding-top:10px; color:azure" matBadge="?" matBadgeOverlap="false" matBadgeColor="accent">add_shopping_cart</mat-icon></span>
 </mat-toolbar>
+
+<mat-menu #userMenu>
+    <li mat-menu-item>Profile</li>
+    <li mat-menu-item (click)="onExit()">Exit</li>
+</mat-menu>
 

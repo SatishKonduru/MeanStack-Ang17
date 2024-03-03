@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { globalProperties } from '../../shared/globalProperties';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,8 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
   providers: [
-    UserService
+    UserService,
+    SnackbarService
   ]
 })
 export class RegisterComponent implements OnInit{
@@ -25,7 +27,8 @@ export class RegisterComponent implements OnInit{
   constructor(
     private _formBuilder: FormBuilder,
     private _userService: UserService,
-    private _router: Router
+    private _router: Router,
+    private _snackbar: SnackbarService
   ){}
   ngOnInit(): void {
       this.registerForm = this._formBuilder.group({
@@ -45,19 +48,24 @@ export class RegisterComponent implements OnInit{
   onRegister(){
     const data = this.registerForm.value
     this._userService.userRegister(data)
-    .subscribe((res: any) => {
-      this.responseMsg = res?.message
-      console.log(this.responseMsg)
-      this._router.navigate(['/login'])
-    }, (err: any) => {
-      if(err.error?.message){
-        this.responseMsg = err.error?.message
-      }
-      else{
-        this.responseMsg = globalProperties.genericError
-      }
-      console.log(this.responseMsg)
-     
+    .subscribe({
+    next: (res: any) => {
+                              this.responseMsg = res?.message
+                              console.log(this.responseMsg)
+                              this._snackbar.openSnackbar(this.responseMsg,'success')
+                              this._router.navigate(['/login'])
+                        }, 
+    error: (err: any) => {
+                        if(err.error?.message){
+                          this.responseMsg = err.error?.message
+                        }
+                        else{
+                          this.responseMsg = globalProperties.genericError
+                        }
+                        console.log(this.responseMsg)
+                        this._snackbar.openSnackbar(this.responseMsg, 'error')
+                      }
     })
+  
   }
 }

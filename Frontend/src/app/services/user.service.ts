@@ -16,4 +16,11 @@ export class UserService {
       headers: new HttpHeaders().set('Content-Type','application/json')
     })
   }
+
+
+  userLogin(data: any){
+    return this._http.post(`${this._URL}/user/login`, data, {
+      headers: new HttpHeaders().set('Content-Type', 'application/json')
+    })
+  }
 }

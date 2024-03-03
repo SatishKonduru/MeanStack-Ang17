@@ -1,10 +1,7 @@
-<!-- login.component.html -->
-
 <div class="container-fluid h-100">
     <div class="row h-100">
       <div class="col-md-6 d-flex align-items-center justify-content-center bg-light">
-        <!-- Replace 'your-image-url' with the URL of your image -->
-        <img src="../../../assets/banner/loginBanner.png" alt="Login Image" class="img-fluid w-100 h-100">
+          <img src="../../../assets/banner/loginBanner.png" alt="Login Image" class="img-fluid w-100 h-100">
       </div>
       <div class="col-md-6 d-flex align-items-center justify-content-center">
         <div class="card w-100 mt-2">
@@ -41,9 +38,10 @@
                    
                   </div>
               </div>
-              <a [routerLink]="'/register'" class="text-decoration-none text-black">New User?</a>
-              <button mat-stroked-button class="float-end mt-2" >Login</button>
+              
             </form>
+            <a [routerLink]="'/register'" class="text-decoration-none text-black">New User?</a>
+              <button mat-stroked-button class="float-end mt-2" (click)="onLogin()">Login</button>
           </div>
         </div>
       </div>

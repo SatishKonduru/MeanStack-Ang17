@@ -13,6 +13,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 
@@ -30,7 +31,8 @@ const materialComponents: any[] = [
   MatProgressSpinnerModule,
   MatMenuModule,
   MatListModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatExpansionModule
 ]
 @NgModule({
  imports: [materialComponents],

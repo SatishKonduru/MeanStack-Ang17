@@ -5,9 +5,12 @@ const { User } = require('../models/userModel')
 const bcrypt = require('bcryptjs')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
+const { authenticateToken } = require('../AuthServices/authorization')
+const { checkRole } = require('../AuthServices/checkRole')
+
 
 //getting All users
-router.get('/getUsers', async (req, res) => {
+router.get('/getUsers', authenticateToken, checkRole, async (req, res) => {
     const usersList = await User.find().select('-password')
     if(usersList.length <= 0){
         res.status(500).send({
@@ -57,7 +60,7 @@ router.post('/register', async (req, res) => {
 })
 
 //Getting user by Id
-router.get('/getById/:id', async (req, res) => {
+router.get('/getById/:id',authenticateToken, async (req, res) => {
     const id = req.params.id
     if(!mongoose.isValidObjectId(id)){
         return res.status(401).send({message: 'Invalid User Id'})

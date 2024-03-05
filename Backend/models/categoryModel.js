@@ -10,5 +10,9 @@ const categorySchema = new mongoose.Schema({
     brand: {type: String, default: ''}, //Reymonds, Puma
 })
 
+categorySchema.virtual('id').get(function() {
+    return this._id.toHexString()
+})
+categorySchema.set('toJSON', { virtuals: true})
 const Category = mongoose.model('Category', categorySchema, 'categories')
 module.exports = {Category: Category}

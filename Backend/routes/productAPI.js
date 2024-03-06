@@ -22,14 +22,14 @@ router.get('/getAllProducts', authenticateToken,  async(req, res) => {
 
 
 //Adding New Product
-router.post('/add', authenticateToken, checkRole, async (req, res) => {
+router.post('/addProduct', authenticateToken, checkRole, async (req, res) => {
     const data  = req.body
     const product = new Product({
         name: data.name,
         description: data.description,
         price: data.price,
-        countInStock: data.countInStock,
-
+        countInStock: data.countInStock
+        
     })
     newProduct = await product.save()
     if(!newProduct){

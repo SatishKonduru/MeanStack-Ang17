@@ -15,7 +15,13 @@ const productSchema = new mongoose.Schema({
     countInStock: {type: Number, required: true, min: 0, max: 200},
     rating: {type: Number, default: 3},
     isFeatured: {type: Boolean, default: true},
-    dateCreated: {type: Date, default: Date.now}
+    dateCreated: {type: Date, default: Date.now},
+    ageGroup: {type: String, defulat: ''}, //Adult, Teen, Kids
+    style: {type: String, default: ''}, //Casual, Formal, sportsware
+    size: {type: String, default: ''}, //Small, Medium, Large, Extra Large
+    color: {type: String, default: ''}, //White, Black
+    season: {type: String, default: ''}, //Summer, Winter
+    brand: {type: String, default: ''}, //Reymonds, Puma
 })
 
 

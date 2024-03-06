@@ -103,4 +103,66 @@ router.patch('/update/:id', authenticateToken, checkRole, async (req, res) => {
 })
 
 //Delete Product
+router.delete('/delete/:id', authenticateToken, checkRole, async (req, res) => {
+    const productId = req.params.id
+    deleteProduct = await Product.findByIdAndDelete(productId)
+    if(!deleteProduct){
+        return res.status(500).send({
+            message: 'No Product was found'
+        })
+    }
+    else{
+        return res.status(200).send({
+            message: "Product Deleted Successfully"
+        })
+    }
+})
+
+//Getting Product Count
+router.get('/getCount', authenticateToken, checkRole, async (req, res) => {
+    productCount = await Product.countDocuments()
+    
+    if(!productCount){
+        return res.status(500).send({
+            message: "No Products were found"
+        })
+    }
+    else{
+        return res.status(200).send({
+            count: productCount
+        })
+    }
+})
+
+//Get Products by Category
+router.get('/ByCategory/:id', authenticateToken, async (req, res) => {
+    const categoryId = req.params.id
+    productDetails = await Product.find({category: categoryId})
+    if(productDetails.length <= 0){
+        return res.status(500).send({
+            message: 'No Products were found in given category'
+        })
+    }
+    else{
+        return res.status(200).send({
+            products: productDetails
+        })
+    }
+})
+
+//Get Products Count by Category
+router.get('/getCountByCategory/:id', authenticateToken, async (req, res) => {
+    const categoryId = req.params.id
+    productCount = await Product.find({category: categoryId}).countDocuments()
+    if(!productCount){
+        return res.status(500).send({
+            message: 'No Products were found in given category'
+        })
+    }
+    else{
+        return res.status(200).send({
+            productCount: productCount
+        })
+    }
+})
 module.exports = router

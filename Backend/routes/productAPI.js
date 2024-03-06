@@ -210,10 +210,12 @@ router.get('/getCountByCategory/:id', authenticateToken, async (req, res) => {
     }
 })
 
-router.patch(`/gallery-images/:id`, uploadOptions.array('images', 10), async (req, res) =>{
+
+//Upload Multiple images
+router.patch(`/gallery-images/:id`, uploadOptions.array('images', 10), authenticateToken, checkRole, async (req, res) =>{
     const id= req.params.id
     if(!mongoose.isValidObjectId(id)){
-        return res.status(400).json({
+        return res.status(400).send({
             message: 'Invalid Object Id'
         })
     }
@@ -234,15 +236,13 @@ router.patch(`/gallery-images/:id`, uploadOptions.array('images', 10), async (re
 
     updatedProduct = await Product.findByIdAndUpdate(id, { images : imagePaths}, {new: true})
     if(!updatedProduct){
-        res.status(401).json({
-            message: 'Invalid Product Selection',
-            success: false
+        res.status(401).send({
+            message: 'Invalid Product Selection'
         })
     }
     else{
         res.status(200).send({
             message: 'Product Updated Successfully with Image Gallery. ',
-            success: true,
             updatedProduct: updatedProduct
         })
     }

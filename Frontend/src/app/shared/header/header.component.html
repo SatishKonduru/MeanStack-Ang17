@@ -4,12 +4,12 @@
         <span><i class="fa fa-phone" aria-hidden="true" style="font-size: 20px;" ></i>:(+91) 91822 56249</span>
         <span><i class="fa fa-heart" aria-hidden="true" style="font-size: 20px;"></i> Wishlist(?)</span>
         <span>About Us</span>
-        <span>Contact Us</span>
-        @if(!user){
+        <span>Contact Us </span>
+        @if((userToken$ | async)==''){
             <span><button mat-stroked-button color="warn" [routerLink]="'/login'">Login</button></span>
         }
         @else {
-            <span [matMenuTriggerFor]="userMenu" style="cursor: pointer;">{{user}}</span>
+            <span [matMenuTriggerFor]="userMenu" style="cursor: pointer;">{{ userToken$ | async }}</span>
         }
         
        </div>
@@ -26,7 +26,7 @@
         </nav>
         <span class="spacer"></span>
        
-        <span><mat-icon type="button" style="font-size: 30px; margin-right: 2rem;padding-top:10px; color:azure" matBadge="?" matBadgeOverlap="false" matBadgeColor="accent">add_shopping_cart</mat-icon></span>
+        <span><mat-icon type="button" style="font-size: 30px; margin-right: 2rem;padding-top:10px; color:azure" matBadge="?" matBadgeOverlap="false" matBadgeColor="accent" aria-hidden="false">add_shopping_cart</mat-icon></span>
 </mat-toolbar>
 
 <mat-menu #userMenu >

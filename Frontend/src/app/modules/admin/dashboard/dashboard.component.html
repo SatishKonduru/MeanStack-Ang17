@@ -1,6 +1,6 @@
 <mat-drawer-container class="admin-container" autosize>
   <mat-drawer #drawer class="admin-sidenav" mode="side" opened>
-    <h4 class="d-flex justify-content-center align-items-center">{{ user }}</h4>
+    <h4 class="d-flex justify-content-center align-items-center">{{ userToken$ | async }}</h4>
     <h6 class="d-flex justify-content-center align-items-center">Admin</h6>
     <hr />
    

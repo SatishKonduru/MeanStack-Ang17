@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, shareReplay } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { TokenAuthService } from '../../../services/tokenAuth.service';
 
 
 
@@ -27,23 +28,20 @@ interface IMenu {
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
   providers: [
+    TokenAuthService
   ]
 })
 export class DashboardComponent implements OnInit{
-payload: any = {}
-user: string = ''
-menuList$! : Observable<IMenu[]>; 
 
-constructor(private _http: HttpClient){
+menuList$! : Observable<IMenu[]>; 
+userToken$ !: Observable<string>
+
+constructor(private _http: HttpClient, private _tokenAuth: TokenAuthService){
   
 }
 ngOnInit(): void {
-    const token = sessionStorage.getItem('token')
-    if(token){
-      this.payload = jwtDecode(token)
-      this.user = this.payload.name
-    }
-    this.menuList$ =  this._http.get<IMenu[]>("../../../../assets/menuItems.json")
+  this.userToken$ =  this._tokenAuth.getToken()
+  this.menuList$ =  this._http.get<IMenu[]>("../../../../assets/menuItems.json")
    }
   
 

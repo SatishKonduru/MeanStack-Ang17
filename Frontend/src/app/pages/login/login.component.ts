@@ -8,6 +8,7 @@ import { UserService } from '../../services/user.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { globalProperties } from '../../shared/globalProperties';
 import { jwtDecode } from 'jwt-decode';
+import { TokenAuthService } from '../../services/tokenAuth.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ import { jwtDecode } from 'jwt-decode';
   styleUrl: './login.component.css',
   providers: [
     UserService,
-    SnackbarService
+    SnackbarService,
+    TokenAuthService
   ]
 })
 export class LoginComponent implements OnInit {
@@ -34,7 +36,8 @@ constructor(
   private _formBuilder: FormBuilder, 
   private _userService: UserService,
   private _snackbar: SnackbarService,
-  private _router: Router
+  private _router: Router,
+  private _tokenAuthService: TokenAuthService
 ){}
 ngOnInit(): void {
     this.loginForm = this._formBuilder.group({
@@ -49,7 +52,8 @@ onLogin(){
   .subscribe({
     next: (res: any) => {
       const token = res?.token
-      sessionStorage.setItem('token', token)
+      // sessionStorage.setItem('token', token)
+      this._tokenAuthService.setToken(token)
       this.payload = jwtDecode(token)
       // console.log("Role: ", this.payload.role)
       if(this.payload.role && this.payload.role === 'admin')

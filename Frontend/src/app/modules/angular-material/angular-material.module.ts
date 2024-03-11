@@ -14,6 +14,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 
@@ -32,7 +34,9 @@ const materialComponents: any[] = [
   MatMenuModule,
   MatListModule,
   MatSidenavModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatPaginatorModule,
+  MatTooltipModule
 ]
 @NgModule({
  imports: [materialComponents],

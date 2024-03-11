@@ -34,7 +34,7 @@ const storage = multer.diskStorage({
 
 //Getting all Products
 router.get('/getAllProducts', authenticateToken,  async(req, res) => {
-    const productList = await Product.find()
+    const productList = await Product.find().populate('category')
 
     if(productList.length <= 0){
         res.status(500).send({

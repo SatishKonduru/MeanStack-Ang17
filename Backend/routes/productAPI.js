@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
       cb(uploadError , 'public/uploads')
     },
     filename: function (req, file, cb) { 
-    //   const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+       //   const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
       const fileName = file.originalname.split(' ').join('-')
       const extension = FILE_TYPE_MAP[file.mimetype]
       cb(null, `${fileName}-${Date.now()}.${extension}`)
@@ -53,7 +53,7 @@ router.get('/getAllProducts', authenticateToken,  async(req, res) => {
 router.post('/addProduct', uploadOptions.single('image') , authenticateToken, checkRole, async (req, res) => {
     const data  = req.body
     const categoryId = data.category
-    const file = req.file
+    const file = req.file.filename  
     if(!file){
         return res.status(400).send('No Image was found in Request')
     }
@@ -64,16 +64,22 @@ router.post('/addProduct', uploadOptions.single('image') , authenticateToken, ch
             message: 'Invalid Category'
         })
     }
-    const fileName = req.file.filename
+    const fileName = file
     const basePath = `${req.protocol}://${req.get('host')}/public/uploads/` 
     // basePath = http://localhost:3000/public/upload
     const product = new Product({
         name: data.name,
         description: data.description,
+        richDescription: data.richDescription,
         image: `${basePath}${fileName}`,
         price: data.price,
         countInStock: data.countInStock,
-        category: data.category
+        category: data.category,
+        style: data.style,
+        size: data.size,
+        color: data.color,
+        season: data.season,
+        brand: data.brand
         
     })
     newProduct = await product.save()

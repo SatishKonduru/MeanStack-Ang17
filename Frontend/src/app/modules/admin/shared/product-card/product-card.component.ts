@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, DoCheck, Input, OnInit } from '@angular/core';
 import { AngularMaterialModule } from '../../../angular-material/angular-material.module';
 import { productModel } from '../../../../shared/models/model';
 import { CommonModule } from '@angular/common';
@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css'
 })
-export class ProductCardComponent {
+export class ProductCardComponent{
 @Input() products: any
+
+
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject } from "@angular/core";
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, ElementRef, NgZone, OnInit, ViewChild, inject } from "@angular/core";
 import { AngularMaterialModule } from "../../../angular-material/angular-material.module";
 import { ProductCardComponent } from "../../shared/product-card/product-card.component";
 import { Observable, map } from "rxjs";
@@ -9,6 +9,7 @@ import { MatDrawer } from "@angular/material/sidenav";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { globalProperties } from "../../../../shared/globalProperties";
 import { AngularEditorConfig, AngularEditorModule } from "@kolkov/angular-editor";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-men",
@@ -39,6 +40,7 @@ export class MenComponent implements OnInit {
     defaultParagraphSeparator: 'p',
     defaultFontName: 'Poppins'
   }
+  imageSelected: boolean = false;
   ngOnInit(): void {
     this.getProducts();
     this.getCategories();
@@ -46,7 +48,7 @@ export class MenComponent implements OnInit {
       name: ['', [Validators.required, Validators.pattern(globalProperties.nameRegx)]],
       description: ['', Validators.required],
       richDescription: [''],
-      image: ['', Validators.required],
+      // image: ['', Validators.required],
       price: [0, Validators.required],
       category: ['', Validators.required],
       countInStock: [0, Validators.required],
@@ -59,13 +61,33 @@ export class MenComponent implements OnInit {
   }
   saveProduct() {
     const productDetails = this.productForm.value
-    console.log("Product Details: ", productDetails)
-    this.menService.addProduct(productDetails).subscribe((res: any)=> {
+   
+    const imageFile = this.image
+
+    const formData = new FormData();
+    formData.append('name', productDetails.name);
+    formData.append('description', productDetails.description);
+    formData.append('price', productDetails.price);
+    formData.append('countInStock', productDetails.countInStock);
+    formData.append('category', productDetails.category);
+    formData.append('style', productDetails.style);
+    formData.append('size', productDetails.size);
+    formData.append('color', productDetails.color);
+    formData.append('season', productDetails.season);
+    formData.append('brand', productDetails.brand);
+    formData.append('image', imageFile); 
+   
+   
+    this.menService.addProduct(formData).subscribe((res: any)=> {
       if(res?.message){
         const msg = res?.message
-        console.log("MEssage: ", msg)
-      }
+        this.getProducts()
+        console.log("Message: ", msg)
+     }
     })
+  
+    this.drawer.close();
+    
   }
 
   closeDrawer(){
@@ -81,6 +103,7 @@ export class MenComponent implements OnInit {
         );
       })
     );
+    this.menProducts$.subscribe(res => console.log(res))
   }
 
   getCategories(){
@@ -95,17 +118,19 @@ export class MenComponent implements OnInit {
 
   @ViewChild('fileInput') fileInput!: ElementRef;
   @ViewChild('fileInputField') fileInputField!: ElementRef;
+  image: any;
   onFileSelected(event: any): void {
     const fileInput = event.target;
 
     if (fileInput.files && fileInput.files.length > 0) {
-      const file = fileInput.files[0];
-
+      const file: File = fileInput.files[0];
+      this.image = file
       // Set the selected image preview
       this.previewImage(file);
 
       // Update the input field value
       this.fileInputField.nativeElement.value = file.name;
+      this.imageSelected = true;
     }
   }
 
@@ -124,4 +149,6 @@ export class MenComponent implements OnInit {
     reader.readAsDataURL(file);
     
   }
+
+ 
 }

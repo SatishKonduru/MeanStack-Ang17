@@ -1,9 +1,11 @@
-
-@for(product of products; track product){
-    <mat-card class="w-25 p-3 " >
-        <span>Name: <span class="text-primary m-xl-3">{{ product.name }}</span></span>
-        <span>Price: <span class="text-danger m-xl-3">{{"₹ "+ product.price }} /-</span></span>
-        <span>Brand: <span class="text-success m-xl-3">{{product.brand | uppercase }}</span></span>
-        
-    </mat-card>
-}
+<div class="container-fluid d-flex gap-3 flex-wrap flex-grow-1">
+    @for(product of products; track product){
+        <mat-card class="w-25 p-3 " >
+            <span>Name: <span class="text-primary m-xl-3">{{ product.name }}</span></span>
+            <span>Price: <span class="text-danger m-xl-3">{{"₹ "+ product.price }} /-</span></span>
+            <span>Brand: <span class="text-success m-xl-3">{{product.brand | uppercase }}</span></span>
+            
+        </mat-card>
+    }
+    
+</div>

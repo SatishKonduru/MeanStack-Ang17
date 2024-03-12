@@ -122,6 +122,6 @@ export class MenComponent implements OnInit {
     };
 
     reader.readAsDataURL(file);
-    this.productForm.append('image',)
+    
   }
 }

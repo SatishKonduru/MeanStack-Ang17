@@ -14,9 +14,8 @@ export interface userModel{
 }
 
 export interface productModel{
-    filter(): any
     name: string,
-    descriptin?: string,
+    description?: string,
     richDescription? : string,
     image? : string,
     images? : [string],
@@ -31,5 +30,10 @@ export interface productModel{
     season? : string,
     brand? : string,
     dateCreated?: Date
+}
 
+export interface categoryModel{
+    id: string,
+    name: string,
+    icon? : string
 }

@@ -16,6 +16,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSelectModule} from '@angular/material/select';
 
 
 
@@ -36,7 +37,8 @@ const materialComponents: any[] = [
   MatSidenavModule,
   MatExpansionModule,
   MatPaginatorModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatSelectModule
 ]
 @NgModule({
  imports: [materialComponents],

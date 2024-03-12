@@ -14,7 +14,7 @@ router.get('/getCategories', authenticateToken, async (req, res) => {
         }
         else{
             return res.status(200).send({
-                cagegories: categoryList
+                categories: categoryList
             })
         }
 })

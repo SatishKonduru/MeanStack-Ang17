@@ -60,7 +60,12 @@ export class MenComponent implements OnInit {
   saveProduct() {
     const productDetails = this.productForm.value
     console.log("Product Details: ", productDetails)
-    
+    this.menService.addProduct(productDetails).subscribe((res: any)=> {
+      if(res?.message){
+        const msg = res?.message
+        console.log("MEssage: ", msg)
+      }
+    })
   }
 
   closeDrawer(){
@@ -117,5 +122,6 @@ export class MenComponent implements OnInit {
     };
 
     reader.readAsDataURL(file);
+    this.productForm.append('image',)
   }
 }

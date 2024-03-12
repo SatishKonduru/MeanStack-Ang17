@@ -1,6 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { environment } from "../../../../../environments/environment.development";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, map, shareReplay } from "rxjs";
 import {  categoryModel, productModel } from "../../../../shared/models/model";
 
@@ -23,6 +23,12 @@ export class MenService{
         return this._http.get<categoryModel[]>(`${this._url}/category/getCategories`).pipe(
             shareReplay()
         )
+    }
+
+    addProduct(data: any){
+        return this._http.post(`${this._url}/product/addProduct`, data, {
+            headers: new HttpHeaders().set('Content-Type', 'application/json')
+        })
     }
 
 }

@@ -1,7 +1,7 @@
 <div class="container-fluid row display: flex; flex-wrap: wrap; ">
     @for(product of products; track product){
         <div  style="flex: 0 0 50%;" >
-            <mat-card class="m-3 p-2">
+            <mat-card class="mb-3 p-2">
                 <mat-grid-list cols="3" rowHeight="100px" style="flex-direction: column;">
                   <mat-grid-tile style="display: flex; flex-direction: column;">
                     <div>
@@ -20,12 +20,12 @@
                   </mat-grid-tile>
                   <mat-grid-tile  style="display: flex; flex-direction: column; text-align: end;">
                     <div class="mb-2 p-2">
-                        <button mat-mini-fab color="primary" matTooltip="Edit" style="width: 30px; height: 30px;">
+                        <button mat-mini-fab color="primary" matTooltip="Edit" style="width: 30px; height: 30px;" >
                             <mat-icon >edit</mat-icon>
                         </button>
                     </div>
                     <div class="p-2">
-                        <button mat-mini-fab color="warn" matTooltip="delete" style="width: 30px; height: 30px;">
+                        <button mat-mini-fab color="warn" matTooltip="Delete" style="width: 30px; height: 30px;">
                             <mat-icon >delete</mat-icon>
                         </button>
                     </div>

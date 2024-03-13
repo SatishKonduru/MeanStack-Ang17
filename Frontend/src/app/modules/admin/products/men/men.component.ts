@@ -1,10 +1,10 @@
 import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, ElementRef, NgZone, OnInit, ViewChild, inject } from "@angular/core";
 import { AngularMaterialModule } from "../../../angular-material/angular-material.module";
 import { ProductCardComponent } from "../../shared/product-card/product-card.component";
-import { Observable, map } from "rxjs";
+import { BehaviorSubject, Observable, combineLatest, map, of } from "rxjs";
 import { categoryModel, productModel } from "../../../../shared/models/model";
 import { MenService } from "./menService";
-import { CommonModule } from "@angular/common";
+import { CommonModule, IMAGE_CONFIG } from "@angular/common";
 import { MatDrawer } from "@angular/material/sidenav";
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { globalProperties } from "../../../../shared/globalProperties";
@@ -24,7 +24,7 @@ import { Router } from "@angular/router";
 export class MenComponent implements OnInit {
   @ViewChild('drawer') drawer!: MatDrawer;
 
- 
+  searchKey: string = ''
   menProducts$!: Observable<productModel[]>;
   menService = inject(MenService);
   categories$!: Observable<categoryModel[]>;
@@ -93,17 +93,17 @@ export class MenComponent implements OnInit {
   closeDrawer(){
     this.drawer.close();
   }
-  getProducts() {
+  getProducts(searchKey: string = '') {
     const products$ = this.menService.getProducts();
     this.menProducts$ = products$.pipe(
       map((res: any) => {
         const productArray = res.products || [];
         return productArray.filter(
-          (product: any) => product.category.name == "Men"
+          (product: any) => product.category.name == "Men" && (product.name.toLowerCase().includes(searchKey.toLowerCase() ) || product.brand.toLowerCase().includes(searchKey.toLowerCase() ) )
         );
       })
     );
-    this.menProducts$.subscribe(res => console.log(res))
+    // this.menProducts$.subscribe(res => console.log(res))
   }
 
   getCategories(){
@@ -149,6 +149,14 @@ export class MenComponent implements OnInit {
     reader.readAsDataURL(file);
     
   }
+// Define a BehaviorSubject to hold the search value
 
+  applyFilter(value: any){
+    this.getProducts(value);
+  }
+  onSearchClear(){
+    this.searchKey = ''
+    this.applyFilter('')
+  }
  
 }

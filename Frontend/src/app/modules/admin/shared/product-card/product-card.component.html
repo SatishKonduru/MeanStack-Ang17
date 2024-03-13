@@ -1,11 +1,40 @@
-<div class="container-fluid d-flex gap-3 flex-wrap flex-grow-1">
+<div class="container-fluid row display: flex; flex-wrap: wrap; ">
     @for(product of products; track product){
-        <mat-card class="w-25 p-3 " >
-            <span>Name: <span class="text-primary m-xl-3">{{ product.name }}</span></span>
-            <span>Price: <span class="text-danger m-xl-3">{{"₹ "+ product.price }} /-</span></span>
-            <span>Brand: <span class="text-success m-xl-3">{{product.brand | uppercase }}</span></span>
-            
-        </mat-card>
+        <div  style="flex: 0 0 50%;" >
+            <mat-card class="m-3 p-2">
+                <mat-grid-list cols="3" rowHeight="100px" style="flex-direction: column;">
+                  <mat-grid-tile style="display: flex; flex-direction: column;">
+                    <div>
+                      Name: <span class="text-primary">{{ product.name }}</span>
+                    </div> 
+                    <div>
+                      Price: <span class="text-danger">{{"₹ "+ product.price }} /-</span>
+                    </div>
+                    <div>
+                      Brand: <span class="text-success">{{product.brand | uppercase }}</span>
+                    </div>
+                  </mat-grid-tile>
+              
+                  <mat-grid-tile style="text-align: end;">
+                    <img src={{product.image}} class="w-50 h-100 image-with-shadow" >
+                  </mat-grid-tile>
+                  <mat-grid-tile  style="display: flex; flex-direction: column; text-align: end;">
+                    <div class="mb-2 p-2">
+                        <button mat-mini-fab color="primary" matTooltip="Edit" style="width: 30px; height: 30px;">
+                            <mat-icon >edit</mat-icon>
+                        </button>
+                    </div>
+                    <div class="p-2">
+                        <button mat-mini-fab color="warn" matTooltip="delete" style="width: 30px; height: 30px;">
+                            <mat-icon >delete</mat-icon>
+                        </button>
+                    </div>
+                  </mat-grid-tile>
+                </mat-grid-list>
+              </mat-card>
+        </div>
+        
+          
     }
     
 </div>

@@ -1,8 +1,15 @@
-<div class="d-flex col-md-12">
+<div class="d-flex ">
  
-  <mat-card class="w-25 fs-4 text-center">
+  <mat-card class="w-25 fs-4 text-center" style="height: 90px;">
     <mat-card-content>
-      Men Products
+    <mat-form-field appearance="outline" class="w-100">
+      <input matInput [(ngModel)]="searchKey" #search (keyup)="applyFilter(search.value)"> 
+      @if(searchKey){
+        <button matSuffix mat-icon-button (click)="onSearchClear()"><mat-icon>close</mat-icon></button>
+      }
+      
+    </mat-form-field>
+        
     </mat-card-content>
   </mat-card>
     <button mat-mini-fab  class="mx-4 my-2"color="warn" matTooltip="ADD New Product" (click)="drawer.toggle()"><mat-icon>add</mat-icon></button>
@@ -10,7 +17,7 @@
 </div>
 <hr />
 
-<div class="my-3 bg-light p-1">
+
  
   <app-product-card
     [products]="(menProducts$ | async) | slice
@@ -23,12 +30,12 @@
   <mat-paginator
     #paginate
     [length]="(menProducts$ | async)?.length"
-    [pageSize]="9"
+    [pageSize]="4"
     [pageSizeOptions]="[10, 20, 50]"
     showFirstLastButtons
     class="bg-light p-3"
   ></mat-paginator>
-</div>
+
 
 
 <!-- Right sidenav for adding New Product -->

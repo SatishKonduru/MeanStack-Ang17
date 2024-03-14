@@ -1,7 +1,7 @@
 import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, ElementRef, NgZone, OnInit, ViewChild, inject } from "@angular/core";
 import { AngularMaterialModule } from "../../../angular-material/angular-material.module";
 import { ProductCardComponent } from "../../shared/product-card/product-card.component";
-import { BehaviorSubject, Observable, combineLatest, map, of } from "rxjs";
+import { BehaviorSubject, Observable, combineLatest, map, of, tap } from "rxjs";
 import { categoryModel, productModel } from "../../../../shared/models/model";
 import { MenService } from "./menService";
 import { CommonModule, IMAGE_CONFIG } from "@angular/common";
@@ -11,6 +11,8 @@ import { globalProperties } from "../../../../shared/globalProperties";
 import { AngularEditorConfig, AngularEditorModule } from "@kolkov/angular-editor";
 import { Router } from "@angular/router";
 import { SnackbarService } from "../../../../services/snackbar.service";
+import { LoaderService } from "../../../../services/loader.service";
+
 
 @Component({
   selector: "app-men",
@@ -18,7 +20,7 @@ import { SnackbarService } from "../../../../services/snackbar.service";
   imports: [AngularMaterialModule, ProductCardComponent, CommonModule, FormsModule, ReactiveFormsModule, AngularEditorModule],
   templateUrl: "./men.component.html",
   styleUrl: "./men.component.css",
-  providers: [MenService, SnackbarService ],
+  providers: [MenService, SnackbarService , LoaderService],
 })
 
 
@@ -44,7 +46,10 @@ export class MenComponent implements OnInit {
   }
   imageSelected: boolean = false;
   responseMsg: string = ''
+  loaderService = inject(LoaderService)
+  spinnerSize: number = 30;
   ngOnInit(): void {
+    
     this.getProducts();
     this.getCategories();
     this.productForm = this.formBuilder.group({
@@ -106,7 +111,12 @@ export class MenComponent implements OnInit {
   }
   getProducts(searchKey: string = '') {
     const products$ = this.menService.getProducts();
-    this.menProducts$ = products$.pipe(
+    const loadProducts$ = this.loaderService.showLoader(products$)
+    this.loaderService.loader$.subscribe(loaderState => {
+      console.log('Loader state:', loaderState);
+    });
+    this.menProducts$ = loadProducts$.pipe(
+    
       map((res: any) => {
         const productArray = res.products || [];
         return productArray.filter(
@@ -114,7 +124,7 @@ export class MenComponent implements OnInit {
         );
       })
     );
-    // this.menProducts$.subscribe(res => console.log(res))
+ 
   }
 
   getCategories(){

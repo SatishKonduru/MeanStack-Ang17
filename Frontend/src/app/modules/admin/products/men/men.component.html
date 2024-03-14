@@ -1,5 +1,5 @@
 <div class="d-flex ">
- 
+
   <mat-card class="w-25 fs-4 text-center" style="height: 90px;">
     <mat-card-content>
     <mat-form-field appearance="outline" class="w-100">
@@ -18,9 +18,11 @@
 </div>
 <hr />
 
+  @if(loaderService.loader$ | async){
+      <mat-spinner color="warn" [diameter]="spinnerSize"></mat-spinner>
+  }
 
- 
-  <app-product-card
+ <app-product-card
     [products]="(menProducts$ | async) | slice
           : paginate.pageIndex * paginate.pageSize
           : (paginate.pageIndex + 1) * paginate.pageSize">

@@ -23,16 +23,14 @@
   <app-product-card
     [products]="(menProducts$ | async) | slice
           : paginate.pageIndex * paginate.pageSize
-          : (paginate.pageIndex + 1) * paginate.pageSize
-    "
-  >
+          : (paginate.pageIndex + 1) * paginate.pageSize">
   </app-product-card>
 
   <mat-paginator
     #paginate
     [length]="(menProducts$ | async)?.length"
     [pageSize]="4"
-    [pageSizeOptions]="[10, 20, 50]"
+    [pageSizeOptions]="[4,8,20,40]"
     showFirstLastButtons
     class="bg-light p-3"
   ></mat-paginator>
@@ -56,7 +54,7 @@
                 @if(productForm.controls.name.touched && productForm.controls.name.invalid ){
                   <mat-error>
                     @if(productForm.controls.name.errors?.required){
-                      <span> This Field is Mandatory</span>
+                      <span> Name is Mandatory</span>
                     }
                     @if(productForm.controls.name.errors?.pattern){
                       <span> Invalid Name</span>
@@ -243,7 +241,7 @@
                 <div>Browse for Image to Upload <span style="color:red">*</span> </div>
                 <input matInput placeholder="Choose file" [value]="selectedFileName" #fileInputField readonly style="display: none;">
                 <input #fileInput type="file" id="image" name="image" (change)="onFileSelected($event)" style="display: none;">
-                <button mat-icon-button (click)="openFileInput()" tabindex="-1">
+                <button mat-mini-fab (click)="openFileInput()" tabindex="-1" color="primary">
                   <mat-icon>attach_file</mat-icon>
                 </button>
               </div>

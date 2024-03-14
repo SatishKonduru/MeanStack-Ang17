@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { globalProperties } from "../../../../shared/globalProperties";
 import { AngularEditorConfig, AngularEditorModule } from "@kolkov/angular-editor";
 import { Router } from "@angular/router";
+import { SnackbarService } from "../../../../services/snackbar.service";
 
 @Component({
   selector: "app-men",
@@ -17,7 +18,7 @@ import { Router } from "@angular/router";
   imports: [AngularMaterialModule, ProductCardComponent, CommonModule, FormsModule, ReactiveFormsModule, AngularEditorModule],
   templateUrl: "./men.component.html",
   styleUrl: "./men.component.css",
-  providers: [MenService ],
+  providers: [MenService, SnackbarService ],
 })
 
 
@@ -27,6 +28,7 @@ export class MenComponent implements OnInit {
   searchKey: string = ''
   menProducts$!: Observable<productModel[]>;
   menService = inject(MenService);
+  snackbar = inject(SnackbarService)
   categories$!: Observable<categoryModel[]>;
   formBuilder = inject(FormBuilder)
   productForm:any = FormGroup
@@ -41,6 +43,7 @@ export class MenComponent implements OnInit {
     defaultFontName: 'Poppins'
   }
   imageSelected: boolean = false;
+  responseMsg: string = ''
   ngOnInit(): void {
     this.getProducts();
     this.getCategories();
@@ -80,10 +83,18 @@ export class MenComponent implements OnInit {
    
     this.menService.addProduct(formData).subscribe((res: any)=> {
       if(res?.message){
-        const msg = res?.message
+        this.responseMsg = res?.message
         this.getProducts()
-        console.log("Message: ", msg)
+        this.snackbar.openSnackbar(this.responseMsg,'success')
      }
+    }, (err: any) => {
+      if(err.error?.message){
+        this.responseMsg = err.error?.message
+      }
+      else{
+        this.responseMsg = globalProperties.genericError
+      }
+      this.snackbar.openSnackbar(this.responseMsg, globalProperties.error)
     })
   
     this.drawer.close();
@@ -99,7 +110,7 @@ export class MenComponent implements OnInit {
       map((res: any) => {
         const productArray = res.products || [];
         return productArray.filter(
-          (product: any) => product.category.name == "Men" && (product.name.toLowerCase().includes(searchKey.toLowerCase() ) || product.brand.toLowerCase().includes(searchKey.toLowerCase() ) )
+          (product: any) => product.category.name == "Men" && (product.name.trim().toLowerCase().includes(searchKey.trim().toLowerCase() ) || product.brand.trim().toLowerCase().includes(searchKey.trim().toLowerCase() ) )
         );
       })
     );
@@ -149,7 +160,6 @@ export class MenComponent implements OnInit {
     reader.readAsDataURL(file);
     
   }
-// Define a BehaviorSubject to hold the search value
 
   applyFilter(value: any){
     this.getProducts(value);

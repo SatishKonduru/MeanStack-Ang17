@@ -55,7 +55,8 @@ router.post('/addProduct', uploadOptions.single('image') , authenticateToken, ch
     const categoryId = data.category
     const file = req.file.filename  
     if(!file){
-        return res.status(400).send('No Image was found in Request')
+        return res.status(400).send({
+            message: 'No Image was found in Request'})
     }
     checkCategoryId = await Category.findById(categoryId)
  
@@ -66,7 +67,7 @@ router.post('/addProduct', uploadOptions.single('image') , authenticateToken, ch
     }
     const fileName = file
     const basePath = `${req.protocol}://${req.get('host')}/public/uploads/` 
-    // basePath = http://localhost:3000/public/upload
+    // basePath = http://localhost:3000/public/uploads/
     const product = new Product({
         name: data.name,
         description: data.description,

@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './product-card.component.css'
 })
 export class ProductCardComponent{
-@Input() products: any
+@Input() products: any;
 
 
 }

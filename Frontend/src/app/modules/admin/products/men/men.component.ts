@@ -105,6 +105,7 @@ export class MenComponent implements OnInit {
     const formData = new FormData();
     formData.append("name", productDetails.name);
     formData.append("description", productDetails.description);
+    formData.append("richDescription", productDetails.richDescription);
     formData.append("price", productDetails.price);
     formData.append("countInStock", productDetails.countInStock);
     formData.append("category", productDetails.category);
@@ -232,15 +233,14 @@ export class MenComponent implements OnInit {
   }
 
   editProduct() {
-    console.log("Updating values", this.productForm.value);
-
-    const productDetails = this.productForm.value;
+     const productDetails = this.productForm.value;
 
     const imageFile = this.image;
 
     const formData = new FormData();
     formData.append("name", productDetails.name);
     formData.append("description", productDetails.description);
+    formData.append("richDescription", productDetails.richDescription);
     formData.append("price", productDetails.price);
     formData.append("countInStock", productDetails.countInStock);
     formData.append("category", productDetails.category);
@@ -262,15 +262,13 @@ export class MenComponent implements OnInit {
       },
 
       error: (err: any) => {
-        {
-          if (err.error?.message) {
+         if (err.error?.message) {
             this.responseMsg = err.error?.message;
           } else {
             this.responseMsg = globalProperties.genericError;
           }
           this.snackbar.openSnackbar(this.responseMsg, globalProperties.error);
         }
-      },
     });
     this.drawer.close();
   }

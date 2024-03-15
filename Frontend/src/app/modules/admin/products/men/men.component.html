@@ -26,10 +26,10 @@
     <mat-spinner *ngIf="loader" color="warn" [diameter]="spinnerSize"></mat-spinner>
   </ng-container> -->
   
- <app-product-card [parentDrawer]="this"
+ <app-product-card [menDrawer]="this"
     [products]="(menProducts$ | async) | slice
           : paginate.pageIndex * paginate.pageSize
-          : (paginate.pageIndex + 1) * paginate.pageSize" (drawerContentTitle)="onDrawerContentTitleChange($event)" (drawerFormData)="onDrawerFormDataChange($event)">
+          : (paginate.pageIndex + 1) * paginate.pageSize" (menDrawerContentTitle)="onmenDrawerContentTitleChange($event)" (menDrawerFormData)="onmenDrawerFormDataChange($event)">
   </app-product-card>
 
   <mat-paginator
@@ -47,11 +47,11 @@
 
   <mat-drawer #drawer class="add-product-sidenav " mode="over" position="end">
    <div class="container animate__animated animate__bounceInDown ">
-     @if(drawerContentTitle == '') {
+     @if(menDrawerContentTitle == '') {
       <h5 class="mb-4">Add Product</h5>
      }
      @else{
-      <h5 class="mb-4">{{ drawerContentTitle }}</h5>
+      <h5 class="mb-4">{{ menDrawerContentTitle }}</h5>
      }
       
         <form [formGroup]="productForm">
@@ -275,7 +275,7 @@
        
      </form> 
     </div>
-    @if(drawerContentTitle == '') {
+    @if(menDrawerContentTitle == '') {
       <button mat-mini-fab class="mx-4 my-2" color="warn" matTooltip="ADD New Product" (click)="saveProduct()" [disabled]="(!imageSelected) || !(productForm.valid && productForm.dirty)">
         <mat-icon>save</mat-icon>
       </button>

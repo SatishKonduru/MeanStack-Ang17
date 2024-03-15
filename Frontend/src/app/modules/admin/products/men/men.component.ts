@@ -49,7 +49,8 @@ export class MenComponent implements OnInit {
   loaderService = inject(LoaderService)
   spinnerSize: number = 30;
   
-
+  menDrawerContentTitle:any = '';
+  menDrawerFormData: any = {}
  
   ngOnInit(): void {
     
@@ -111,8 +112,8 @@ export class MenComponent implements OnInit {
   }
 
   closeDrawer(){
-    this.drawerContentTitle = ''
-   this. drawerFormData = {}
+    this.menDrawerContentTitle = ''
+    this.productForm.reset();
     this.drawer.close();
   }
   getProducts(searchKey: string = '') {
@@ -182,21 +183,21 @@ export class MenComponent implements OnInit {
   }
  
 
-  drawerContentTitle:any = '';
-  drawerFormData: any
+
   toggleDrawer() {
+
    this.drawer.toggle();
   }
-  onDrawerContentTitleChange(title: string) {
-    this.drawerContentTitle = title;
-    console.log("Drawer Content Title: ", this.drawerContentTitle);
+  onmenDrawerContentTitleChange(title: string) {
+    this.menDrawerContentTitle = title;
+   
 }
 
 
-onDrawerFormDataChange(data: any) {
-    this.drawerFormData = data;
-    this.productForm.patchValue(this.drawerFormData)
-    this.productForm.controls['category'].setValue(this.drawerFormData.category.id)
+onmenDrawerFormDataChange(data: any) {
+    this.menDrawerFormData = data;
+    this.productForm.patchValue(this.menDrawerFormData)
+    this.productForm.controls['category'].setValue(this.menDrawerFormData.category.id)
    
 }
 

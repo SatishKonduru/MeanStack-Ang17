@@ -12,15 +12,15 @@ import { CommonModule } from '@angular/common';
 })
 export class ProductCardComponent{
 @Input() products: any;
-@Input() parentDrawer!: any;
+@Input() menDrawer!: any;
 
-@Output() drawerContentTitle = new EventEmitter()
-@Output() drawerFormData = new EventEmitter()
+@Output() menDrawerContentTitle = new EventEmitter()
+@Output() menDrawerFormData = new EventEmitter()
 
-  toggleParentDrawer(product : any) {
-    this.parentDrawer.toggleDrawer();
-    this.drawerContentTitle.emit('Edit Product') 
-    this.drawerFormData.emit( product)
+  toggleMenDrawer(product : any) {
+    this.menDrawer.toggleDrawer();
+    this.menDrawerContentTitle.emit('Edit Product') 
+    this.menDrawerFormData.emit( product)
     console.log("Selected Product Details: ", product)
     
 

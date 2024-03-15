@@ -48,6 +48,9 @@ export class MenComponent implements OnInit {
   responseMsg: string = ''
   loaderService = inject(LoaderService)
   spinnerSize: number = 30;
+  
+
+ 
   ngOnInit(): void {
     
     this.getProducts();
@@ -68,6 +71,7 @@ export class MenComponent implements OnInit {
     })
   }
   saveProduct() {
+   
     const productDetails = this.productForm.value
    
     const imageFile = this.image
@@ -107,17 +111,14 @@ export class MenComponent implements OnInit {
   }
 
   closeDrawer(){
+    this.drawerContentTitle = ''
     this.drawer.close();
   }
   getProducts(searchKey: string = '') {
     const products$ = this.menService.getProducts();
     const loadProducts$ = this.loaderService.showLoader(products$)
-    this.loaderService.loader$.subscribe(loaderState => {
-      console.log('Loader state:', loaderState);
-    });
     this.menProducts$ = loadProducts$.pipe(
-    
-      map((res: any) => {
+          map((res: any) => {
         const productArray = res.products || [];
         return productArray.filter(
           (product: any) => product.category.name == "Men" && (product.name.trim().toLowerCase().includes(searchKey.trim().toLowerCase() ) || product.brand.trim().toLowerCase().includes(searchKey.trim().toLowerCase() ) )
@@ -178,5 +179,23 @@ export class MenComponent implements OnInit {
     this.searchKey = ''
     this.applyFilter('')
   }
+ 
+
+  drawerContentTitle:any = '';
+  drawerFormData: any
+  toggleDrawer() {
+   this.drawer.toggle();
+  }
+  onDrawerContentTitleChange(title: string) {
+    this.drawerContentTitle = title;
+    console.log("Drawer Content Title: ", this.drawerContentTitle);
+}
+
+onDrawerFormDataChange(data: any) {
+    this.drawerFormData = data;
+    data.category = 'Men'
+    this.productForm.patchValue(this.drawerFormData)
+    console.log("Drawer Form Data: ", this.drawerFormData);
+}
  
 }

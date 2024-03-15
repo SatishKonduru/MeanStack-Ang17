@@ -1,4 +1,4 @@
-import { AfterContentChecked, ChangeDetectorRef, Component, DoCheck, Input, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, DoCheck, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AngularMaterialModule } from '../../../angular-material/angular-material.module';
 import { productModel } from '../../../../shared/models/model';
 import { CommonModule } from '@angular/common';
@@ -12,6 +12,18 @@ import { CommonModule } from '@angular/common';
 })
 export class ProductCardComponent{
 @Input() products: any;
+@Input() parentDrawer!: any;
 
+@Output() drawerContentTitle = new EventEmitter()
+@Output() drawerFormData = new EventEmitter()
+
+  toggleParentDrawer(product : any) {
+    this.parentDrawer.toggleDrawer();
+    this.drawerContentTitle.emit('Edit Product') 
+    this.drawerFormData.emit( product)
+    console.log("Selected Product Details: ", product)
+    
+
+  }
 
 }

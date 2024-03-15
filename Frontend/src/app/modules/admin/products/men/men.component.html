@@ -19,13 +19,17 @@
 <hr />
 
   @if(loaderService.loader$ | async){
-      <mat-spinner color="warn" [diameter]="spinnerSize"></mat-spinner>
+      <mat-spinner color="warn" [diameter]="spinnerSize" ></mat-spinner>
   }
 
- <app-product-card
+  <!-- <ng-container *ngIf="loaderService.loader$ | async as loader">
+    <mat-spinner *ngIf="loader" color="warn" [diameter]="spinnerSize"></mat-spinner>
+  </ng-container> -->
+  
+ <app-product-card [parentDrawer]="this"
     [products]="(menProducts$ | async) | slice
           : paginate.pageIndex * paginate.pageSize
-          : (paginate.pageIndex + 1) * paginate.pageSize">
+          : (paginate.pageIndex + 1) * paginate.pageSize" (drawerContentTitle)="onDrawerContentTitleChange($event)" (drawerFormData)="onDrawerFormDataChange($event)">
   </app-product-card>
 
   <mat-paginator
@@ -42,13 +46,17 @@
 <!-- Right sidenav for adding New Product -->
 
   <mat-drawer #drawer class="add-product-sidenav " mode="over" position="end">
-   
-    <div class="container animate__animated animate__bounceInDown ">
-      <h5 class="mb-4">Add Product</h5> 
-      <form [formGroup]="productForm">
+   <div class="container animate__animated animate__bounceInDown ">
+     @if(drawerContentTitle == '') {
+      <h5 class="mb-4">Add Product</h5>
+     }
+     @else{
+      <h5 class="mb-4">{{ drawerContentTitle }}</h5>
+     }
+      
+        <form [formGroup]="productForm">
         <!-- First Row -->
         <div class="row">
-
           <div class="col-md-3 mb-1 mr-2">
               <mat-form-field appearance="outline">
                 <mat-label>Name: </mat-label>
@@ -100,14 +108,15 @@
                 }
               </mat-form-field>
           </div>
-
+        
           <div class="col-md-3 mb-1 mr-2">
-            <mat-form-field appearance="outline">
+           
+           <mat-form-field appearance="outline">
               <mat-label>Category: </mat-label>
-              <mat-select formControlName="category"> 
-                @for(category of (categories$ | async); track $index){
-                 
-                  <mat-option [value]="category.id">{{category.name}} </mat-option>
+             
+                <mat-select formControlName="category"> 
+                 @for(category of (categories$ | async); track $index){
+                 <mat-option [value]="category.id">{{category.name}} </mat-option>
                 }
             </mat-select>
             @if(productForm.controls.category.touched && productForm.controls.category.invalid ){

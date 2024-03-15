@@ -1,4 +1,15 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, DoCheck, ElementRef, NgZone, OnInit, ViewChild, inject } from "@angular/core";
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  DoCheck,
+  ElementRef,
+  NgZone,
+  OnInit,
+  ViewChild,
+  inject,
+} from "@angular/core";
 import { AngularMaterialModule } from "../../../angular-material/angular-material.module";
 import { ProductCardComponent } from "../../shared/product-card/product-card.component";
 import { BehaviorSubject, Observable, combineLatest, map, of, tap } from "rxjs";
@@ -6,150 +17,172 @@ import { categoryModel, productModel } from "../../../../shared/models/model";
 import { MenService } from "./menService";
 import { CommonModule, IMAGE_CONFIG } from "@angular/common";
 import { MatDrawer } from "@angular/material/sidenav";
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
 import { globalProperties } from "../../../../shared/globalProperties";
-import { AngularEditorConfig, AngularEditorModule } from "@kolkov/angular-editor";
+import {
+  AngularEditorConfig,
+  AngularEditorModule,
+} from "@kolkov/angular-editor";
 import { Router } from "@angular/router";
 import { SnackbarService } from "../../../../services/snackbar.service";
 import { LoaderService } from "../../../../services/loader.service";
 
-
 @Component({
   selector: "app-men",
   standalone: true,
-  imports: [AngularMaterialModule, ProductCardComponent, CommonModule, FormsModule, ReactiveFormsModule, AngularEditorModule],
+  imports: [
+    AngularMaterialModule,
+    ProductCardComponent,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AngularEditorModule,
+  ],
   templateUrl: "./men.component.html",
   styleUrl: "./men.component.css",
-  providers: [MenService, SnackbarService , LoaderService],
+  providers: [MenService, SnackbarService, LoaderService],
 })
-
-
 export class MenComponent implements OnInit {
-  @ViewChild('drawer') drawer!: MatDrawer;
+  @ViewChild("drawer") drawer!: MatDrawer;
 
-  searchKey: string = ''
+  searchKey: string = "";
   menProducts$!: Observable<productModel[]>;
   menService = inject(MenService);
-  snackbar = inject(SnackbarService)
+  snackbar = inject(SnackbarService);
   categories$!: Observable<categoryModel[]>;
-  formBuilder = inject(FormBuilder)
-  productForm:any = FormGroup
+  formBuilder = inject(FormBuilder);
+  productForm: any = FormGroup;
   editorConfig: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
-    height: '12rem',
-    minHeight: '10rem',
-    placeholder: 'Enter Product Complete Description here...',
-    translate: 'no',
-    defaultParagraphSeparator: 'p',
-    defaultFontName: 'Poppins'
-  }
+    height: "12rem",
+    minHeight: "10rem",
+    placeholder: "Enter Product Complete Description here...",
+    translate: "no",
+    defaultParagraphSeparator: "p",
+    defaultFontName: "Poppins",
+  };
   imageSelected: boolean = false;
-  responseMsg: string = ''
-  loaderService = inject(LoaderService)
+  responseMsg: string = "";
+  loaderService = inject(LoaderService);
   spinnerSize: number = 30;
-  
-  menDrawerContentTitle:any = '';
-  menDrawerFormData: any = {}
- 
+
+  menDrawerContentTitle: any = "";
+  menDrawerFormData: any = {};
+
   ngOnInit(): void {
-    
     this.getProducts();
     this.getCategories();
     this.productForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.pattern(globalProperties.nameRegx)]],
-      description: ['', Validators.required],
-      richDescription: [''],
+      name: [
+        "",
+        [Validators.required, Validators.pattern(globalProperties.nameRegx)],
+      ],
+      description: ["", Validators.required],
+      richDescription: [""],
       // image: ['', Validators.required],
       price: [0, Validators.required],
-      category: ['', Validators.required],
+      category: ["", Validators.required],
       countInStock: [0, Validators.required],
-      style: [''],
-      size:['', Validators.required],
-      color: ['', Validators.required],
-      season: ['', Validators.required],
-      brand: ['', Validators.required]
-    })
+      style: [""],
+      size: ["", Validators.required],
+      color: ["", Validators.required],
+      season: ["", Validators.required],
+      brand: ["", Validators.required],
+    });
   }
   saveProduct() {
-   
-    const productDetails = this.productForm.value
-   
-    const imageFile = this.image
+    const productDetails = this.productForm.value;
+
+    const imageFile = this.image;
 
     const formData = new FormData();
-    formData.append('name', productDetails.name);
-    formData.append('description', productDetails.description);
-    formData.append('price', productDetails.price);
-    formData.append('countInStock', productDetails.countInStock);
-    formData.append('category', productDetails.category);
-    formData.append('style', productDetails.style);
-    formData.append('size', productDetails.size);
-    formData.append('color', productDetails.color);
-    formData.append('season', productDetails.season);
-    formData.append('brand', productDetails.brand);
-    formData.append('image', imageFile); 
-   
-   
-    this.menService.addProduct(formData).subscribe((res: any)=> {
-      if(res?.message){
-        this.responseMsg = res?.message
-        this.getProducts()
-        this.snackbar.openSnackbar(this.responseMsg,'success')
-     }
-    }, (err: any) => {
-      if(err.error?.message){
-        this.responseMsg = err.error?.message
+    formData.append("name", productDetails.name);
+    formData.append("description", productDetails.description);
+    formData.append("price", productDetails.price);
+    formData.append("countInStock", productDetails.countInStock);
+    formData.append("category", productDetails.category);
+    formData.append("style", productDetails.style);
+    formData.append("size", productDetails.size);
+    formData.append("color", productDetails.color);
+    formData.append("season", productDetails.season);
+    formData.append("brand", productDetails.brand);
+    formData.append("image", imageFile);
+
+    this.menService.addProduct(formData).subscribe(
+      (res: any) => {
+        if (res?.message) {
+          this.responseMsg = res?.message;
+          this.getProducts();
+          this.snackbar.openSnackbar(this.responseMsg, "success");
+        }
+      },
+      (err: any) => {
+        if (err.error?.message) {
+          this.responseMsg = err.error?.message;
+        } else {
+          this.responseMsg = globalProperties.genericError;
+        }
+        this.snackbar.openSnackbar(this.responseMsg, globalProperties.error);
       }
-      else{
-        this.responseMsg = globalProperties.genericError
-      }
-      this.snackbar.openSnackbar(this.responseMsg, globalProperties.error)
-    })
-  
+    );
+
     this.drawer.close();
-    
   }
 
-  closeDrawer(){
-    this.menDrawerContentTitle = ''
-    this.selectedImage = ''
+  closeDrawer() {
+    this.menDrawerContentTitle = "";
+    this.selectedImage = "";
     this.productForm.reset();
     this.drawer.close();
   }
-  getProducts(searchKey: string = '') {
+  getProducts(searchKey: string = "") {
     const products$ = this.menService.getProducts();
-    const loadProducts$ = this.loaderService.showLoader(products$)
+    const loadProducts$ = this.loaderService.showLoader(products$);
     this.menProducts$ = loadProducts$.pipe(
-          map((res: any) => {
+      map((res: any) => {
         const productArray = res.products || [];
         return productArray.filter(
-          (product: any) => product.category.name == "Men" && (product.name.trim().toLowerCase().includes(searchKey.trim().toLowerCase() ) || product.brand.trim().toLowerCase().includes(searchKey.trim().toLowerCase() ) )
+          (product: any) =>
+            product.category.name == "Men" &&
+            (product.name
+              .trim()
+              .toLowerCase()
+              .includes(searchKey.trim().toLowerCase()) ||
+              product.brand
+                .trim()
+                .toLowerCase()
+                .includes(searchKey.trim().toLowerCase()))
         );
       })
     );
- 
   }
 
-  getCategories(){
+  getCategories() {
     const category$ = this.menService.getCategories();
     this.categories$ = category$.pipe(
-     map((res: any) => {
-      const categoryArray = res.categories || []
-      return categoryArray
-     })
-      )
+      map((res: any) => {
+        const categoryArray = res.categories || [];
+        return categoryArray;
+      })
+    );
   }
 
-  @ViewChild('fileInput') fileInput!: ElementRef;
-  @ViewChild('fileInputField') fileInputField!: ElementRef;
+  @ViewChild("fileInput") fileInput!: ElementRef;
+  @ViewChild("fileInputField") fileInputField!: ElementRef;
   image: any;
   onFileSelected(event: any): void {
     const fileInput = event.target;
 
     if (fileInput.files && fileInput.files.length > 0) {
       const file: File = fileInput.files[0];
-      this.image = file
+      this.image = file;
       // Set the selected image preview
       this.previewImage(file);
 
@@ -172,83 +205,73 @@ export class MenComponent implements OnInit {
     };
 
     reader.readAsDataURL(file);
-    
   }
 
-  applyFilter(value: any){
+  applyFilter(value: any) {
     this.getProducts(value);
   }
-  onSearchClear(){
-    this.searchKey = ''
-    this.applyFilter('')
+  onSearchClear() {
+    this.searchKey = "";
+    this.applyFilter("");
   }
- 
-
 
   toggleDrawer() {
-   this.drawer.toggle();
+    this.drawer.toggle();
   }
   onMenDrawerContentTitleChange(title: string) {
     this.menDrawerContentTitle = title;
-   
-}
-
-
-onMenDrawerFormDataChange(data: any) {
-    this.menDrawerFormData = data;
-    this.productForm.patchValue(this.menDrawerFormData)
-    this.productForm.controls['category'].setValue(this.menDrawerFormData.category.id)
-    this.selectedImage = this.menDrawerFormData.image
-}
-
-editProduct(){
-  console.log("Updating values", this.productForm.value)
-  
-  const productDetails = this.productForm.value
-   
-  const imageFile = this.image
-
-  const formData = new FormData();
-  formData.append('name', productDetails.name);
-  formData.append('description', productDetails.description);
-  formData.append('price', productDetails.price);
-  formData.append('countInStock', productDetails.countInStock);
-  formData.append('category', productDetails.category);
-  formData.append('style', productDetails.style);
-  formData.append('size', productDetails.size);
-  formData.append('color', productDetails.color);
-  formData.append('season', productDetails.season);
-  formData.append('brand', productDetails.brand);
-  formData.append('image', imageFile); 
- 
-
- const productId = this.menDrawerFormData.id
-  this.menService.updateProduct(productId,formData).subscribe( {
-    next:(res: any)=> {
-      if(res?.message){
-        this.responseMsg = res?.message
-        this.getProducts()
-        this.snackbar.openSnackbar(this.responseMsg,'success')
-     }
-    },
-   
-  error:  (err: any) =>{
-    {
-      if(err.error?.message){
-        this.responseMsg = err.error?.message
-      }
-      else{
-        this.responseMsg = globalProperties.genericError
-      }
-      this.snackbar.openSnackbar(this.responseMsg, globalProperties.error)
-    
   }
-   
-}
-  })
-  this.drawer.close();
-}
 
+  onMenDrawerFormDataChange(data: any) {
+    this.menDrawerFormData = data;
+    this.productForm.patchValue(this.menDrawerFormData);
+    this.productForm.controls["category"].setValue(
+      this.menDrawerFormData.category.id
+    );
+    this.selectedImage = this.menDrawerFormData.image;
+  }
 
+  editProduct() {
+    console.log("Updating values", this.productForm.value);
 
+    const productDetails = this.productForm.value;
+
+    const imageFile = this.image;
+
+    const formData = new FormData();
+    formData.append("name", productDetails.name);
+    formData.append("description", productDetails.description);
+    formData.append("price", productDetails.price);
+    formData.append("countInStock", productDetails.countInStock);
+    formData.append("category", productDetails.category);
+    formData.append("style", productDetails.style);
+    formData.append("size", productDetails.size);
+    formData.append("color", productDetails.color);
+    formData.append("season", productDetails.season);
+    formData.append("brand", productDetails.brand);
+    formData.append("image", imageFile);
+
+    const productId = this.menDrawerFormData.id;
+    this.menService.updateProduct(productId, formData).subscribe({
+      next: (res: any) => {
+        if (res?.message) {
+          this.responseMsg = res?.message;
+          this.getProducts();
+          this.snackbar.openSnackbar(this.responseMsg, "success");
+        }
+      },
+
+      error: (err: any) => {
+        {
+          if (err.error?.message) {
+            this.responseMsg = err.error?.message;
+          } else {
+            this.responseMsg = globalProperties.genericError;
+          }
+          this.snackbar.openSnackbar(this.responseMsg, globalProperties.error);
+        }
+      },
+    });
+    this.drawer.close();
+  }
 }

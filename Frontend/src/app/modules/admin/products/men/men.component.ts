@@ -112,6 +112,7 @@ export class MenComponent implements OnInit {
 
   closeDrawer(){
     this.drawerContentTitle = ''
+   this. drawerFormData = {}
     this.drawer.close();
   }
   getProducts(searchKey: string = '') {
@@ -191,7 +192,7 @@ export class MenComponent implements OnInit {
     console.log("Drawer Content Title: ", this.drawerContentTitle);
 }
 
-cId: any
+
 onDrawerFormDataChange(data: any) {
     this.drawerFormData = data;
     this.productForm.patchValue(this.drawerFormData)

@@ -275,9 +275,19 @@
        
      </form> 
     </div>
-    <button mat-mini-fab class="mx-4 my-2" color="warn" matTooltip="ADD New Product" (click)="saveProduct()" [disabled]="(!imageSelected) || !(productForm.valid && productForm.dirty)">
-      <mat-icon>save</mat-icon>
-    </button>
+    @if(drawerContentTitle == '') {
+      <button mat-mini-fab class="mx-4 my-2" color="warn" matTooltip="ADD New Product" (click)="saveProduct()" [disabled]="(!imageSelected) || !(productForm.valid && productForm.dirty)">
+        <mat-icon>save</mat-icon>
+      </button>
+     }
+     @else{
+      <button mat-mini-fab class="mx-4 my-2" color="primary" matTooltip="Edit Product" (click)="editProduct()" [disabled]="!imageSelected">
+        <mat-icon>update</mat-icon>
+      </button>
+     }
+
+
+    
     <button mat-mini-fab class="mx-4 my-2" color="warn" matTooltip="Close Form" (click)="closeDrawer()">
       <mat-icon>close</mat-icon>
     </button>

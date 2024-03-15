@@ -191,11 +191,16 @@ export class MenComponent implements OnInit {
     console.log("Drawer Content Title: ", this.drawerContentTitle);
 }
 
+cId: any
 onDrawerFormDataChange(data: any) {
     this.drawerFormData = data;
-    data.category = 'Men'
     this.productForm.patchValue(this.drawerFormData)
-    console.log("Drawer Form Data: ", this.drawerFormData);
+    this.productForm.controls['category'].setValue(this.drawerFormData.category.id)
+   
+}
+
+editProduct(){
+  
 }
  
 }

@@ -113,6 +113,7 @@ export class MenComponent implements OnInit {
 
   closeDrawer(){
     this.menDrawerContentTitle = ''
+    this.selectedImage = ''
     this.productForm.reset();
     this.drawer.close();
   }
@@ -197,7 +198,7 @@ onMenDrawerFormDataChange(data: any) {
     this.menDrawerFormData = data;
     this.productForm.patchValue(this.menDrawerFormData)
     this.productForm.controls['category'].setValue(this.menDrawerFormData.category.id)
-   
+    this.selectedImage = this.menDrawerFormData.image
 }
 
 editProduct(){

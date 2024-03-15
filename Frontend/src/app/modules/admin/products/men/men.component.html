@@ -31,7 +31,8 @@
           : paginate.pageIndex * paginate.pageSize
           : (paginate.pageIndex + 1) * paginate.pageSize" 
           (menDrawerContentTitle)="onMenDrawerContentTitleChange($event)" 
-          (menDrawerFormData)="onMenDrawerFormDataChange($event)">
+          (menDrawerFormData)="onMenDrawerFormDataChange($event)"
+          (deleteEmitter)="onDeleteProductFromProductCard()">
   </app-product-card>
 
   <mat-paginator

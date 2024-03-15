@@ -17,6 +17,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSelectModule} from '@angular/material/select';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 
@@ -38,7 +39,8 @@ const materialComponents: any[] = [
   MatExpansionModule,
   MatPaginatorModule,
   MatTooltipModule,
-  MatSelectModule
+  MatSelectModule,
+  MatDialogModule
 ]
 @NgModule({
  imports: [materialComponents],

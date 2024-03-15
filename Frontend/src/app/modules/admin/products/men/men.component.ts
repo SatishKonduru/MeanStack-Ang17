@@ -133,7 +133,8 @@ export class MenComponent implements OnInit {
         this.snackbar.openSnackbar(this.responseMsg, globalProperties.error);
       }
     );
-
+    this.productForm.reset()
+    this.selectedImage = "";
     this.drawer.close();
   }
 
@@ -271,5 +272,9 @@ export class MenComponent implements OnInit {
         }
     });
     this.drawer.close();
+  }
+
+  onDeleteProductFromProductCard(){
+    this.getProducts()
   }
 }

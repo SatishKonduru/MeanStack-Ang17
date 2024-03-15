@@ -21,6 +21,7 @@ export class ProductCardComponent{
     this.menDrawer.toggleDrawer();
     this.menDrawerContentTitle.emit('Update Product') 
     this.menDrawerFormData.emit( product)
+    console.log("Emitting Product Data: ", product)
    }
 
 }

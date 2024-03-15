@@ -31,8 +31,8 @@ export class MenService{
          
     }
 
-    getProductById(){
-        
+    updateProduct(pId: any, data: any){
+        return this._http.patch(`${this._url}/product/update/${pId}`, data)
     }
 
 }

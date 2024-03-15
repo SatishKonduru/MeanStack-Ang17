@@ -19,11 +19,8 @@ export class ProductCardComponent{
 
   toggleMenDrawer(product : any) {
     this.menDrawer.toggleDrawer();
-    this.menDrawerContentTitle.emit('Edit Product') 
+    this.menDrawerContentTitle.emit('Update Product') 
     this.menDrawerFormData.emit( product)
-    console.log("Selected Product Details: ", product)
-    
-
-  }
+   }
 
 }

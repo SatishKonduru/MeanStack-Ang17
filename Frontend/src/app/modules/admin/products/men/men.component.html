@@ -29,7 +29,9 @@
  <app-product-card [menDrawer]="this"
     [products]="(menProducts$ | async) | slice
           : paginate.pageIndex * paginate.pageSize
-          : (paginate.pageIndex + 1) * paginate.pageSize" (menDrawerContentTitle)="onmenDrawerContentTitleChange($event)" (menDrawerFormData)="onmenDrawerFormDataChange($event)">
+          : (paginate.pageIndex + 1) * paginate.pageSize" 
+          (menDrawerContentTitle)="onMenDrawerContentTitleChange($event)" 
+          (menDrawerFormData)="onMenDrawerFormDataChange($event)">
   </app-product-card>
 
   <mat-paginator
@@ -43,7 +45,7 @@
 
 
 
-<!-- Right sidenav for adding New Product -->
+<!-- Right sidenav for adding/updating  Product -->
 
   <mat-drawer #drawer class="add-product-sidenav " mode="over" position="end">
    <div class="container animate__animated animate__bounceInDown ">
@@ -281,7 +283,7 @@
       </button>
      }
      @else{
-      <button mat-mini-fab class="mx-4 my-2" color="primary" matTooltip="Edit Product" (click)="editProduct()" [disabled]="!imageSelected">
+      <button mat-mini-fab class="mx-4 my-2" color="primary" matTooltip="Update Product" (click)="editProduct()" [disabled]="!imageSelected">
         <mat-icon>update</mat-icon>
       </button>
      }

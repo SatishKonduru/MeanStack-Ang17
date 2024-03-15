@@ -185,16 +185,15 @@ export class MenComponent implements OnInit {
 
 
   toggleDrawer() {
-
    this.drawer.toggle();
   }
-  onmenDrawerContentTitleChange(title: string) {
+  onMenDrawerContentTitleChange(title: string) {
     this.menDrawerContentTitle = title;
    
 }
 
 
-onmenDrawerFormDataChange(data: any) {
+onMenDrawerFormDataChange(data: any) {
     this.menDrawerFormData = data;
     this.productForm.patchValue(this.menDrawerFormData)
     this.productForm.controls['category'].setValue(this.menDrawerFormData.category.id)

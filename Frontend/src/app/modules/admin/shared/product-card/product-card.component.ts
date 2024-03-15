@@ -24,7 +24,7 @@ export class ProductCardComponent{
 @Output() menDrawerFormData = new EventEmitter()
 @Output() deleteEmitter = new EventEmitter()
 
-userDialog = inject(MatDialog)
+dialog = inject(MatDialog)
 menService = inject(MenService)
 snackbar = inject(SnackbarService)
 responseMsg: string = ''
@@ -42,11 +42,10 @@ responseMsg: string = ''
     dialogConfig.data = {
       message: 'Delete: '+product.name
     }
-    const dialogRef = this.userDialog.open(ConfirmationComponent, dialogConfig)
-    dialogRef.componentInstance.onEmitStatusChange.subscribe({
+    const dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig)
+    dialogRef.componentInstance.afterDelete.subscribe({
       next: (res: any) =>{
           this.delete(product.id)    
-          
           dialogRef.close()
       }
     })

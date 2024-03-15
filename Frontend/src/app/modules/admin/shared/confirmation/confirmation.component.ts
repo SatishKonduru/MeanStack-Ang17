@@ -11,7 +11,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrl: './confirmation.component.css'
 })
 export class ConfirmationComponent implements OnInit{
-onEmitStatusChange = new EventEmitter()
+afterDelete = new EventEmitter()
 details: any = {}
 constructor(@Inject(MAT_DIALOG_DATA) public dialogData: any){}
 ngOnInit(): void {
@@ -19,7 +19,7 @@ ngOnInit(): void {
       this.details = this.dialogData
     }
 }
-handleChangeAction(){
-  this.onEmitStatusChange.emit() //Means user pressed 'yes' button
+handleAction(){
+  this.afterDelete.emit() //Means user pressed 'yes' button
 }
 }

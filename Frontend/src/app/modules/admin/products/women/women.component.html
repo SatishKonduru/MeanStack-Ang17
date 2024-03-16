@@ -1,1 +1,40 @@
-<p>women works!</p>
+
+
+<div class="container">
+    
+    <div class="first-div" [ngStyle]="{'flex-basis': showDetails ? '70%' : '100%'}">
+        <div class="d-flex ">
+            <mat-card class="w-25 fs-4 text-center" style="height: 90px;">
+              <mat-card-content>
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Search</mat-label>
+                <input matInput  #search > 
+                @if(searchKey){
+                  <button matSuffix mat-icon-button ><mat-icon>close</mat-icon></button>
+                }
+                
+              </mat-form-field>
+                  
+              </mat-card-content>
+            </mat-card>
+              <button mat-mini-fab  class="mx-4 my-4"color="warn" matTooltip="ADD New Product" ><mat-icon>add</mat-icon></button>
+           
+          </div>
+          <div class="mt-3">
+            <mat-divider></mat-divider>
+          </div>
+      <table >
+        <tr *ngFor="let item of items" (click)="showItemDetails(item)" 
+        [class.selected]="selectedItem === item">
+          <td>{{ item.name }}</td>
+          <td>{{ item.description }}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="second-div" *ngIf="selectedItem">
+      <h2>{{ selectedItem.name }}</h2>
+      <p>{{ selectedItem.details }}</p>
+      <button (click)="onClose()">Close</button>
+    </div>
+  </div>
+  

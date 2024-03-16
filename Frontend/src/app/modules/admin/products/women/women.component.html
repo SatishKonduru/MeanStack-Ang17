@@ -21,10 +21,11 @@
           </div>
           <div class="mt-3">
             <mat-divider></mat-divider>
+            <span class="text-success">Click on Product to see preview.</span>
           </div>
           <ng-container *ngIf=" (womenProducts$ | async) | slice
           : paginate.pageIndex * paginate.pageSize
-          : (paginate.pageIndex + 1) * paginate.pageSize as dataSource">
+          : (paginate.pageIndex + 1) * paginate.pageSize as dataSource" >
             <table mat-table [dataSource]="dataSource  " class="mat-elevation-z10" >
               <ng-container matColumnDef="name">
                <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -64,7 +65,8 @@
         <mat-paginator #paginate [pageSizeOptions]="[5, 10, 25,100]"
                         [pageSize]="5"
                         [length]="(womenProducts$ | async)?.length"
-                        showFirstLastButtons></mat-paginator>
+                        showFirstLastButtons
+                        class="bg-light p-3"></mat-paginator>
       </div>
     </div>
     <div class="second-div" *ngIf="selectedItem">

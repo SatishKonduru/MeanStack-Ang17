@@ -67,11 +67,13 @@
                         class="bg-light p-3"></mat-paginator>
       </div>
     </div>
-    <div class="second-div" *ngIf="selectedItem">
+    @if(selectedItem){
+    <div class="second-div" >
       <button mat-mini-fab (click)="onClose()" color="warn" class="float-end"><mat-icon>close</mat-icon></button>
       <h2>{{ selectedItem.name }}</h2>
       <p><img src="{{ selectedItem.image }}" class="w-100 h-50 rounded-3 " style="box-shadow: var(--box-shadow);" > </p>
       
     </div>
+  }
   </div>
   

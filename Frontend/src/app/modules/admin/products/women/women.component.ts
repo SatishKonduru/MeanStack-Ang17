@@ -23,6 +23,7 @@ export class WomenComponent implements OnInit{
   searchKey: any ;
   displayedColumns: string[] = ['name', 'price', 'color', 'countInStock']
   womenProducts$! : Observable<productModel[]> 
+  wProducts$! : Observable<productModel[]>
   dataSource: any;
   responseMsg: string = ''
   womenService = inject(WomenService)
@@ -41,7 +42,7 @@ export class WomenComponent implements OnInit{
       this.getProducts()
   }
 
-  getProducts(): void {
+  getProducts(searchKey: string = ""): void {
     const products$ = this.womenService.getProducts();
     const loadProducts$ = this.loaderService.showLoader(products$);
     this.womenProducts$ = loadProducts$.pipe(
@@ -49,24 +50,27 @@ export class WomenComponent implements OnInit{
         const productArray = res.products || [];
         return productArray.filter(
           (product: any) =>
-            product.category.name == "Women" 
+            product.category.name == "Women" &&
+            (product.name
+              .trim()
+              .toLowerCase()
+              .includes(searchKey.trim().toLowerCase()) ||
+              product.brand
+                .trim()
+                .toLowerCase()
+                .includes(searchKey.trim().toLowerCase()))
         );
       })
 
     );
-
-    this.womenProducts$.subscribe(products => {
-      console.log("Women Products : ", products)
-      this.dataSource = new MatTableDataSource(products);
-      this.dataSource.paginator = this.paginator
-    });
+  
   }
 
-  applyFilter(searchValue: any){
-    this.dataSource.filter = searchValue.trim().toLowerCase()
+  applyFilter(value: any) {
+    this.getProducts(value);
   }
-  onSearchClear(){
-    this.searchKey = ''
-    this.applyFilter('')
+  onSearchClear() {
+    this.searchKey = "";
+    this.applyFilter("");
   }
 }

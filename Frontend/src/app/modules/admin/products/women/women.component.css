@@ -15,4 +15,11 @@
   }
   .selected {
     background-color: lightgray;
+    
+  }
+  th{
+    color: var(--myPrimary)
+  }
+  tr:hover{
+    cursor: pointer;
   }

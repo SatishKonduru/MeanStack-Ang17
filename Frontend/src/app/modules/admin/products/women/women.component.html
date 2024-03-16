@@ -23,18 +23,50 @@
           <div class="mt-3">
             <mat-divider></mat-divider>
           </div>
-      <table >
-        <tr *ngFor="let item of items" (click)="showItemDetails(item)" 
-        [class.selected]="selectedItem === item">
-          <td>{{ item.name }}</td>
-          <td>{{ item.description }}</td>
-        </tr>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z10" >
+       <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element" (click)="showItemDetails(element)" 
+        [class.selected]="selectedItem === element">
+                  {{element.name}}
+        </td>
+       </ng-container>
+       <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>Price</th>
+        <td mat-cell *matCellDef="let element" (click)="showItemDetails(element)" 
+        [class.selected]="selectedItem === element">
+                  {{element.price}}
+        </td>
+       </ng-container>
+       <ng-container matColumnDef="color">
+        <th mat-header-cell *matHeaderCellDef>Color</th>
+        <td mat-cell *matCellDef="let element" (click)="showItemDetails(element)" 
+        [class.selected]="selectedItem === element">
+                  {{element.color}}
+        </td>
+       </ng-container>
+       <ng-container matColumnDef="countInStock">
+        <th mat-header-cell *matHeaderCellDef>In-Stock</th>
+        <td mat-cell *matCellDef="let element" (click)="showItemDetails(element)" 
+        [class.selected]="selectedItem === element">
+                  {{element.countInStock}}
+        </td>
+       </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
+      <div class="mt-4">
+        <mat-paginator [pageSizeOptions]="[5, 10, 25,100]"
+                        [pageSize]="5"
+                        showFirstLastButtons></mat-paginator>
+      </div>
     </div>
     <div class="second-div" *ngIf="selectedItem">
+      <button mat-mini-fab (click)="onClose()" color="warn" class="float-end"><mat-icon>close</mat-icon></button>
       <h2>{{ selectedItem.name }}</h2>
-      <p>{{ selectedItem.details }}</p>
-      <button (click)="onClose()">Close</button>
+      <p><img src="{{ selectedItem.image }}" class="w-100 h-100 rounded-3 " style="box-shadow: var(--box-shadow);" > </p>
+      
     </div>
   </div>
   

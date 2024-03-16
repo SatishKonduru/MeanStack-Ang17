@@ -23,8 +23,7 @@ export class WomenComponent implements OnInit{
   searchKey: any ;
   displayedColumns: string[] = ['name', 'price', 'color', 'countInStock']
   womenProducts$! : Observable<productModel[]> 
-  wProducts$! : Observable<productModel[]>
-  dataSource: any;
+  // dataSource: any;
   responseMsg: string = ''
   womenService = inject(WomenService)
   loaderService = inject(LoaderService)
@@ -55,7 +54,7 @@ export class WomenComponent implements OnInit{
               .trim()
               .toLowerCase()
               .includes(searchKey.trim().toLowerCase()) ||
-              product.brand
+              product.color
                 .trim()
                 .toLowerCase()
                 .includes(searchKey.trim().toLowerCase()))

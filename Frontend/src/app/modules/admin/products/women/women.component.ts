@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { AngularMaterialModule } from '../../../angular-material/angular-material.module';
-import { Observable, map } from 'rxjs';
+import { Observable, Subject, debounceTime, distinctUntilChanged, map, shareReplay, startWith, switchMap } from 'rxjs';
 import { productModel } from '../../../../shared/models/model';
 import { WomenService } from './womenService';
 import { LoaderService } from '../../../../services/loader.service';
@@ -23,11 +23,12 @@ export class WomenComponent implements OnInit{
   searchKey: any ;
   displayedColumns: string[] = ['name', 'price', 'color', 'countInStock']
   womenProducts$! : Observable<productModel[]> 
-  // dataSource: any;
   responseMsg: string = ''
   womenService = inject(WomenService)
   loaderService = inject(LoaderService)
   @ViewChild(MatPaginator) paginator! : MatPaginator
+  private searchTerms = new Subject<string>();
+  spinnerSize: number = 30;
   showItemDetails(item: any) {
     this.selectedItem = item;
     this.showDetails = true;
@@ -38,13 +39,20 @@ export class WomenComponent implements OnInit{
   }
 
   ngOnInit(): void {
-      this.getProducts()
+      // this.getProducts()
+      this.womenProducts$ = this.searchTerms.pipe(
+        startWith(''),
+        debounceTime(500), // Debounce time of 300ms
+        distinctUntilChanged(), // Only emit when the search term changes
+        switchMap((searchKey: string) => this.getProducts(searchKey))
+      ).pipe(shareReplay())
+  
+      // Fetch products on component initialization without search key
+      this.searchTerms.next('');
   }
 
-  getProducts(searchKey: string = ""): void {
-    const products$ = this.womenService.getProducts();
-    const loadProducts$ = this.loaderService.showLoader(products$);
-    this.womenProducts$ = loadProducts$.pipe(
+  getProducts(searchKey: string): Observable<any> { // Return type explicitly set to Observable<any>
+    return this.loaderService.showLoader(this.womenService.getProducts()).pipe(
       map((res: any) => {
         const productArray = res.products || [];
         return productArray.filter(
@@ -60,13 +68,12 @@ export class WomenComponent implements OnInit{
                 .includes(searchKey.trim().toLowerCase()))
         );
       })
-
     );
-  
   }
 
   applyFilter(value: any) {
-    this.getProducts(value);
+    // this.getProducts(value);
+    this.searchTerms.next(value);
   }
   onSearchClear() {
     this.searchKey = "";

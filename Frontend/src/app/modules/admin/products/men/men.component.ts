@@ -169,8 +169,13 @@ export class MenComponent implements OnInit {
     this.menDrawerContentTitle = "";
     this.selectedImage = "";
     this.productForm.reset();
-    this._womenService.closeDrawer()
-    this.router.navigate(['admin/dashboard/products/men'])
+    this.activatedRoute.queryParams.subscribe(params => {
+      if(params['openDrawer']){
+        this._womenService.closeDrawer()
+       this.router.navigate(['admin/dashboard/products/women'])
+      }
+    })
+    
     this.drawer.close();
   }
   getProducts(searchKey: string = "") {
@@ -301,6 +306,12 @@ export class MenComponent implements OnInit {
           this.snackbar.openSnackbar(this.responseMsg, globalProperties.error);
         }
     });
+    this.activatedRoute.queryParams.subscribe(params => {
+      if(params['openDrawer']){
+        this._womenService.closeDrawer()
+       this.router.navigate(['admin/dashboard/products/women'])
+      }
+    })
     this.drawer.close();
   }
 

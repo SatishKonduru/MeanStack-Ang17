@@ -92,4 +92,7 @@ export class WomenComponent implements OnInit{
     this.womenService.setFormData(item)
     this.router.navigate(['admin/dashboard/products/men'], { queryParams: { openDrawer: true } });
   }
+  onDelete(item: any){
+    
+  }
 }

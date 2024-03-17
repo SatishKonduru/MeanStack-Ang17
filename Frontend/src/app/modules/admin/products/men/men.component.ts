@@ -80,7 +80,7 @@ export class MenComponent implements OnInit {
 
   isDrawerOpen: boolean = false;
   activatedRoute = inject(ActivatedRoute)
-  womenService = inject(WomenService)
+  // womenService = inject(WomenService)
   womenProductData: any
   constructor(private _womenService: WomenService) {
     this._womenService.isOpen$.subscribe(isOpen => {
@@ -111,8 +111,8 @@ export class MenComponent implements OnInit {
 
     this.activatedRoute.queryParams.subscribe(params => {
       if (params['openDrawer']) {
-        this.womenService.openDrawer();
-       this.womenService.formData$.subscribe(res => {
+        this._womenService.openDrawer();
+       this._womenService.formData$.subscribe(res => {
         
         this.menDrawerContentTitle = "Update Product"
         this.womenProductData = res;

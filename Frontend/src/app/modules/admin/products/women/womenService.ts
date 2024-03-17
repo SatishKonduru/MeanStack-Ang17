@@ -20,9 +20,9 @@ import { productModel } from "../../../../shared/models/model";
       this.isOpenSubject.next(true);
     }
   
-    closeDrawer() {
-      this.isOpenSubject.next(false);
-    }
+   //  closeDrawer() {
+   //    this.isOpenSubject.next(false);
+   //  }
   
    setFormData(data: any){
       this.formDataSubject.next(data)

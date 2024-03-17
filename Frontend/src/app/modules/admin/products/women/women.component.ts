@@ -84,12 +84,11 @@ export class WomenComponent implements OnInit{
     this.applyFilter("");
   }
 
-  openDrawer() {
-    this.womenService.openDrawer();
-  }
+  // openDrawer() {
+  //   this.womenService.openDrawer();
+  // }
 
   onUpdate(item: any){
-    console.log("Selected Item Details: ", item)
     this.womenService.setFormData(item)
     this.router.navigate(['admin/dashboard/products/men'], { queryParams: { openDrawer: true } });
   }

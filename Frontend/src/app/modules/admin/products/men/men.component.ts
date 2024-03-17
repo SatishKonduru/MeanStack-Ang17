@@ -82,6 +82,7 @@ export class MenComponent implements OnInit {
   activatedRoute = inject(ActivatedRoute)
   // womenService = inject(WomenService)
   womenProductData: any
+  router = inject(Router)
   constructor(private _womenService: WomenService) {
     this._womenService.isOpen$.subscribe(isOpen => {
       this.isDrawerOpen = isOpen;
@@ -168,6 +169,8 @@ export class MenComponent implements OnInit {
     this.menDrawerContentTitle = "";
     this.selectedImage = "";
     this.productForm.reset();
+    this._womenService.closeDrawer()
+    this.router.navigate(['admin/dashboard/products/men'])
     this.drawer.close();
   }
   getProducts(searchKey: string = "") {

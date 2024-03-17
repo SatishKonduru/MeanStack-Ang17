@@ -8,6 +8,7 @@ import { LoaderService } from '../../../../services/loader.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-women',
@@ -29,6 +30,9 @@ export class WomenComponent implements OnInit{
   @ViewChild(MatPaginator) paginator! : MatPaginator
   private searchTerms = new Subject<string>();
   spinnerSize: number = 30;
+  router = inject(Router)
+
+
   showItemDetails(item: any) {
     this.selectedItem = item;
     this.showDetails = true;
@@ -78,5 +82,15 @@ export class WomenComponent implements OnInit{
   onSearchClear() {
     this.searchKey = "";
     this.applyFilter("");
+  }
+
+  openDrawer() {
+    this.womenService.openDrawer();
+  }
+
+  onUpdate(item: any){
+    console.log("Selected Item Details: ", item)
+    this.womenService.setFormData(item)
+    this.router.navigate(['admin/dashboard/products/men'], { queryParams: { openDrawer: true } });
   }
 }

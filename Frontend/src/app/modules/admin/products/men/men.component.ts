@@ -29,9 +29,10 @@ import {
   AngularEditorConfig,
   AngularEditorModule,
 } from "@kolkov/angular-editor";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { SnackbarService } from "../../../../services/snackbar.service";
 import { LoaderService } from "../../../../services/loader.service";
+import { WomenService } from "../women/womenService";
 
 @Component({
   selector: "app-men",
@@ -76,8 +77,18 @@ export class MenComponent implements OnInit {
   menDrawerContentTitle: any = "";
   menDrawerFormData: any = {};
 
+
+  isDrawerOpen: boolean = false;
+  activatedRoute = inject(ActivatedRoute)
+  womenService = inject(WomenService)
+  womenProductData: any
+  constructor(private _womenService: WomenService) {
+    this._womenService.isOpen$.subscribe(isOpen => {
+      this.isDrawerOpen = isOpen;
+    });
+  }
   ngOnInit(): void {
-    this.getProducts();
+      this.getProducts();
     this.getCategories();
     this.productForm = this.formBuilder.group({
       name: [
@@ -96,6 +107,21 @@ export class MenComponent implements OnInit {
       season: ["", Validators.required],
       brand: ["", Validators.required],
     });
+
+
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['openDrawer']) {
+        this.womenService.openDrawer();
+       this.womenService.formData$.subscribe(res => {
+        
+        this.menDrawerContentTitle = "Update Product"
+        this.womenProductData = res;
+             
+      })
+      this.onMenDrawerFormDataChange(this.womenProductData)
+     
+      }
+    })
   }
   saveProduct() {
     const productDetails = this.productForm.value;
@@ -225,6 +251,7 @@ export class MenComponent implements OnInit {
   }
 
   onMenDrawerFormDataChange(data: any) {
+    console.log("DDDDDDDDDDDDDDDDDDDDD", data)
     this.menDrawerFormData = data;
     this.productForm.patchValue(this.menDrawerFormData);
     this.productForm.controls["category"].setValue(

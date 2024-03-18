@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { AngularMaterialModule } from '../../../angular-material/angular-material.module';
 import { Observable, Subject, debounceTime, distinctUntilChanged, map, shareReplay, startWith, switchMap } from 'rxjs';
 import { productModel } from '../../../../shared/models/model';
@@ -9,6 +9,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ConfirmationComponent } from '../../shared/confirmation/confirmation.component';
+import { SnackbarService } from '../../../../services/snackbar.service';
+import { globalProperties } from '../../../../shared/globalProperties';
 
 @Component({
   selector: 'app-women',
@@ -31,8 +35,9 @@ export class WomenComponent implements OnInit{
   private searchTerms = new Subject<string>();
   spinnerSize: number = 30;
   router = inject(Router)
-
-
+  dialog = inject(MatDialog)
+  @Output() deleteEmitter = new EventEmitter()
+  snackbar = inject(SnackbarService)
   showItemDetails(item: any) {
     this.selectedItem = item;
     this.showDetails = true;
@@ -56,7 +61,7 @@ export class WomenComponent implements OnInit{
   }
 
   getProducts(searchKey: string): Observable<any> { // Return type explicitly set to Observable<any>
-    return this.loaderService.showLoader(this.womenService.getProducts()).pipe(
+    return this.womenProducts$ = this.loaderService.showLoader(this.womenService.getProducts()).pipe(
       map((res: any) => {
         const productArray = res.products || [];
         return productArray.filter(
@@ -92,7 +97,38 @@ export class WomenComponent implements OnInit{
     this.womenService.setFormData(item)
     this.router.navigate(['admin/dashboard/products/men'], { queryParams: { openDrawer: true } });
   }
-  onDelete(item: any){
-    
-  }
+  deleteProduct(product:any){
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.data = {
+      message: 'Delete: '+product.name
+    }
+    const dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig)
+    dialogRef.componentInstance.afterDelete.subscribe({
+      next: (res: any) =>{
+          this.delete(product.id) 
+          dialogRef.close()
+      }
+    })
+   }
+
+   delete(id: any){
+    this.womenService.deleteProduct(id).subscribe({
+      next: (res: any) => {
+        this.getProducts('')   
+        if(res?.message){
+          this.responseMsg = res?.message
+        }
+       this.snackbar.openSnackbar(this.responseMsg,'success')
+      },
+      error: (err: any) => {
+        if(err.error?.message){
+          this.responseMsg = err.error?.message
+        }
+        else{
+          this.responseMsg = globalProperties.genericError
+        }
+        this.snackbar.openSnackbar(this.responseMsg,globalProperties.error)
+      }
+    })
+   }
 }

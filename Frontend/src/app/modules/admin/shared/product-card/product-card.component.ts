@@ -36,7 +36,7 @@ responseMsg: string = ''
     this.menDrawerFormData.emit( product)
     console.log("Emitting Product Data: ", product)
    }
-
+ 
    deleteProduct(product:any){
     const dialogConfig = new MatDialogConfig()
     dialogConfig.data = {

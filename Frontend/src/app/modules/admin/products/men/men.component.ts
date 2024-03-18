@@ -259,7 +259,6 @@ export class MenComponent implements OnInit {
   }
 
   onMenDrawerFormDataChange(data: any) {
-    console.log("DDDDDDDDDDDDDDDDDDDDD", data)
     this.menDrawerFormData = data;
     this.productForm.patchValue(this.menDrawerFormData);
     this.productForm.controls["category"].setValue(

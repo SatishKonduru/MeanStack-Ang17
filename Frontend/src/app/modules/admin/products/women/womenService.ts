@@ -33,4 +33,8 @@ import { productModel } from "../../../../shared/models/model";
               shareReplay()
         )
     }
+
+    deleteProduct(pId: any){
+      return this._http.delete(`${this._url}/product/delete/${pId}`)
+  }
  }

@@ -37,15 +37,19 @@
       <mat-expansion-panel-header style="height: 150px">
         <!-- Display the product name as the header -->
         <mat-panel-title>
-          <h4 style="color: var(--myPrimary); margin-left: 50px;">{{ product.name }}</h4>
+          <h5 style="color: var(--myPrimary); margin-left: 50px;">{{ product.name }}</h5>
         </mat-panel-title>
-        <mat-panel-description style="margin-left: 100px; width: 100%;">
+        <mat-panel-description >
           <img
             src="{{ product.image }}"
             class="rounded-2 "
-            style="width: 100px; height: 100px; margin-left: 20rem; "
+            style="width: 100px; height: 100px;  "
             
           />
+          <div style="margin-left: 20rem;" >
+            <button mat-mini-fab color="primary" style="margin-right: 4px;"> <mat-icon>edit</mat-icon></button>
+            <button mat-mini-fab color="warn"><mat-icon>delete</mat-icon></button>
+          </div>
         </mat-panel-description>
       </mat-expansion-panel-header>
 

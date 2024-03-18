@@ -8,15 +8,6 @@ import { productModel } from '../../../../shared/models/model';
 import { KidsService } from './kidsService';
 import { LoaderService } from '../../../../services/loader.service';
 import { FormsModule } from '@angular/forms';
-export interface UserData {
-  name: string;
-  description: string;
-  price: number;
-  date: Date;
-  countInStock: number;
-  brand: string;
-}
-
 
 @Component({
   selector: 'app-kids',
@@ -26,8 +17,8 @@ export interface UserData {
   styleUrl: './kids.component.css'
 })
 export class KidsComponent implements OnInit{
-  dataSource = new MatTableDataSource<UserData>();
-  paginatedData: UserData[] = [];
+  dataSource = new MatTableDataSource<productModel[]>();
+  paginatedData: productModel[] = [];
   itemsPerPage = 5; // Number of items per page
   itemsPerPageOptions = [5, 10, 20]; // Options for items per page
 

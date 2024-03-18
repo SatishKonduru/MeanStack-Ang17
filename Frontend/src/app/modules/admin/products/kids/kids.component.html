@@ -30,12 +30,77 @@
         : (paginate.pageIndex + 1) * paginate.pageSize as dataSource
   "
 >
-  <mat-accordion multi="false" >
-    <!-- Iterate over paginatedData instead of dataSource.data -->
+
+<!-- New Code Starts -->
+<table mat-table [dataSource]="dataSource">
+  <!-- Define your columns here -->
+  <!-- Example column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> <span class="text-danger">Name</span></th>
+    <td mat-cell *matCellDef="let element">
+      <h6 class="text-success"> {{ element.name }}</h6> 
+    </td>
+  </ng-container>
+  
+  <!-- Other columns -->
+  
+  <!-- Additional details column -->
+  <ng-container matColumnDef="details">
+    <th mat-header-cell *matHeaderCellDef><span class="text-danger">Details</span></th>
+    <td mat-cell *matCellDef="let element">
+      <mat-accordion multi>
+        <mat-expansion-panel >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Click for Details
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <!-- Content inside the expansion panel -->
+          
+                <div class="d-flex justify-content-between">
+                  <img src="{{element.image}}" style="height: 150px; width: 150px">
+                  <div >
+                    <button mat-mini-fab color="primary" style="margin-right: 10px;" matTooltip="Update"><mat-icon>update</mat-icon></button>
+                    <button mat-mini-fab color="warn" matTooltip="Delete"><mat-icon>delete</mat-icon></button>
+                  </div>
+                  
+                </div>
+                
+                <table class="table">
+                  <thead>
+                    <tr>
+                    <th>Price</th>
+                    <th>Color</th>
+                    <th>Count In Stock</th>
+                   </tr>
+                   </thead>
+                   <tbody>
+                    <tr>
+                      <td> &#8377; {{element.price}} /-</td>
+                      <td>{{element.color}}</td>
+                      <td>{{element.countInStock}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            
+        </mat-expansion-panel>
+      </mat-accordion>
+     
+    </td>
+  </ng-container>
+  
+  <!-- Other columns -->
+  
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<!-- New Code Ends -->
+  <!-- <mat-accordion multi="false" >
+   
     <mat-expansion-panel *ngFor="let product of dataSource">
-      <!-- Expansion panel header -->
+  
       <mat-expansion-panel-header style="height: 150px">
-        <!-- Display the product name as the header -->
+      
         <mat-panel-title>
           <h5 style="color: var(--myPrimary); margin-left: 50px;">{{ product.name }}</h5>
         </mat-panel-title>
@@ -53,7 +118,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <!-- Expansion panel content -->
+     
       <div class="product-details">
         <table class="table">
           <tr>
@@ -70,12 +135,12 @@
           </tr>
         </table>
       </div>
-      <!-- Add more content here if needed -->
+     
     </mat-expansion-panel>
-  </mat-accordion>
+  </mat-accordion> -->
 </ng-container>
-<!-- Pagination controls -->
-<!-- <mat-paginator [length]="dataSource.data.length" [pageSize]="itemsPerPage"    [pageSizeOptions]="itemsPerPageOptions" (page)="onPageChange($event)"></mat-paginator> -->
+
+
 <div class="mt-4">
   <mat-paginator
     #paginate

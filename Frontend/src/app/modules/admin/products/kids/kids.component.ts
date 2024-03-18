@@ -18,11 +18,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class KidsComponent implements OnInit{
   dataSource = new MatTableDataSource<productModel[]>();
-  paginatedData: productModel[] = [];
-  itemsPerPage = 5; // Number of items per page
-  itemsPerPageOptions = [5, 10, 20]; // Options for items per page
-
-  // displayedColumns: string[] = ['name', 'price', 'color', 'countInStock']
+ 
   displayedColumns: string[] = ['name', 'details']
   kidsProducts$! : Observable<productModel[]> 
   kidsService = inject(KidsService)

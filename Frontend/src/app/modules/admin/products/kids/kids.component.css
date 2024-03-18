@@ -1,0 +1,10 @@
+.image-container {
+    position: absolute;
+    top: 200px; /* Adjust this value according to your layout */
+    left: 20px; /* Adjust this value according to your layout */
+    z-index: 1000; /* Ensure it's on top of other content */
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }

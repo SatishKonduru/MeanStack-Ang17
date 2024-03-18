@@ -18,6 +18,7 @@
     </mat-card-content>
   </mat-card>
 </div>
+<mat-divider></mat-divider>
 @if(loaderService.loader$ | async){
 <mat-spinner color="warn" [diameter]="spinnerSize"></mat-spinner>
 }
@@ -42,8 +43,6 @@
     </td>
   </ng-container>
   
-  <!-- Other columns -->
-  
   <!-- Additional details column -->
   <ng-container matColumnDef="details">
     <th mat-header-cell *matHeaderCellDef><span class="text-danger">Details</span></th>
@@ -60,7 +59,7 @@
                 <div class="d-flex justify-content-between">
                   <img src="{{element.image}}" style="height: 150px; width: 150px">
                   <div >
-                    <button mat-mini-fab color="primary" style="margin-right: 10px;" matTooltip="Update"><mat-icon>update</mat-icon></button>
+                    <button mat-mini-fab color="primary" style="margin-right: 10px;" matTooltip="Edit"><mat-icon>edit</mat-icon></button>
                     <button mat-mini-fab color="warn" matTooltip="Delete"><mat-icon>delete</mat-icon></button>
                   </div>
                   
@@ -89,63 +88,20 @@
     </td>
   </ng-container>
   
-  <!-- Other columns -->
+
   
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 <!-- New Code Ends -->
-  <!-- <mat-accordion multi="false" >
-   
-    <mat-expansion-panel *ngFor="let product of dataSource">
-  
-      <mat-expansion-panel-header style="height: 150px">
-      
-        <mat-panel-title>
-          <h5 style="color: var(--myPrimary); margin-left: 50px;">{{ product.name }}</h5>
-        </mat-panel-title>
-        <mat-panel-description >
-          <img
-            src="{{ product.image }}"
-            class="rounded-2 "
-            style="width: 100px; height: 100px;  "
-            
-          />
-          <div style="margin-left: 20rem;" >
-            <button mat-mini-fab color="primary" style="margin-right: 4px;"> <mat-icon>edit</mat-icon></button>
-            <button mat-mini-fab color="warn"><mat-icon>delete</mat-icon></button>
-          </div>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-     
-      <div class="product-details">
-        <table class="table">
-          <tr>
-            <th>Description:</th>
-            <th>Price:</th>
-            <th>Count in Stock:</th>
-            <th>Brand:</th>
-          </tr>
-          <tr>
-            <td>{{ product.description }}</td>
-            <td>{{ product.price }}</td>
-            <td>{{ product.countInStock }}</td>
-            <td>{{ product.brand }}</td>
-          </tr>
-        </table>
-      </div>
-     
-    </mat-expansion-panel>
-  </mat-accordion> -->
-</ng-container>
+ </ng-container>
 
 
 <div class="mt-4">
   <mat-paginator
     #paginate
-    [pageSizeOptions]="[3, 5, 10, 25, 100]"
-    [pageSize]="3"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    [pageSize]="5"
     [length]="(kidsProducts$ | async)?.length"
     showFirstLastButtons
     class="bg-light p-3"

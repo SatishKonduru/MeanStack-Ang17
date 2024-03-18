@@ -34,8 +34,9 @@ export class KidsComponent implements OnInit{
       startWith(''),
       debounceTime(500), // Debounce time of 300ms
       distinctUntilChanged(), // Only emit when the search term changes
-      switchMap((searchKey: string) => this.getProducts(searchKey))
-    ).pipe(shareReplay())
+      switchMap((searchKey: string) => this.getProducts(searchKey)),
+      shareReplay()
+    )
   }
 
 

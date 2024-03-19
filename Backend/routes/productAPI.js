@@ -186,7 +186,13 @@ router.delete('/delete/:id', authenticateToken, checkRole, async (req, res) => {
 
 //Getting Product Count
 router.get('/getCount', authenticateToken, checkRole, async (req, res) => {
-    productCount = await Product.countDocuments()
+    // productCount = await Product.countDocuments()
+    productCount = await Product.aggregate([{
+        $group: {
+            _id: null,
+            countInStock: { $sum: '$countInStock'}
+        }
+    }])
     
     if(!productCount){
         return res.status(500).send({
@@ -195,7 +201,8 @@ router.get('/getCount', authenticateToken, checkRole, async (req, res) => {
     }
     else{
         return res.status(200).send({
-            count: productCount
+            // count: productCount[0]
+            count: productCount.pop().countInStock
         })
     }
 })

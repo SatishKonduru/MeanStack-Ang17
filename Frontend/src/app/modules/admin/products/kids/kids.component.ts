@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { AngularMaterialModule } from '../../../angular-material/angular-material.module';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,11 @@ import { productModel } from '../../../../shared/models/model';
 import { KidsService } from './kidsService';
 import { LoaderService } from '../../../../services/loader.service';
 import { FormsModule } from '@angular/forms';
+import { SnackbarService } from '../../../../services/snackbar.service';
+import { Router } from '@angular/router';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ConfirmationComponent } from '../../shared/confirmation/confirmation.component';
+import { globalProperties } from '../../../../shared/globalProperties';
 
 @Component({
   selector: 'app-kids',
@@ -27,7 +32,11 @@ export class KidsComponent implements OnInit{
   searchKey : any;
   private searchTerms = new Subject<string>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
- 
+  @Output() deleteEmitter = new EventEmitter()
+  snackbar = inject(SnackbarService)
+  router = inject(Router)
+  dialog = inject(MatDialog)
+  responseMsg: string = ''
   constructor() { }
   ngOnInit(){
     this.kidsProducts$ = this.searchTerms.pipe(
@@ -69,4 +78,41 @@ export class KidsComponent implements OnInit{
     this.applyFilter("");
   }
 
+  updateProduct(item : any){
+    this.kidsService.setFormData(item)
+    this.router.navigate(['admin/dashboard/products/men'], { queryParams: { openDrawerforKids: true } });
+  }
+  deleteProduct(product: any){
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.data = {
+      message: 'Delete: '+product.name
+    }
+    const dialogRef = this.dialog.open(ConfirmationComponent, dialogConfig)
+    dialogRef.componentInstance.afterDelete.subscribe({
+      next: (res: any) =>{
+          this.delete(product.id) 
+          dialogRef.close()
+      }
+    })
+  }
+  delete(id: any){
+    this.kidsService.deleteProduct(id).subscribe({
+      next: (res: any) => {
+        this.getProducts('')   
+        if(res?.message){
+          this.responseMsg = res?.message
+        }
+       this.snackbar.openSnackbar(this.responseMsg,'success')
+      },
+      error: (err: any) => {
+        if(err.error?.message){
+          this.responseMsg = err.error?.message
+        }
+        else{
+          this.responseMsg = globalProperties.genericError
+        }
+        this.snackbar.openSnackbar(this.responseMsg,globalProperties.error)
+      }
+    })
+   }
 }

@@ -59,8 +59,8 @@
                 <div class="d-flex justify-content-between">
                   <img src="{{element.image}}" style="height: 150px; width: 150px">
                   <div >
-                    <button mat-mini-fab color="primary" style="margin-right: 10px;" matTooltip="Edit"><mat-icon>edit</mat-icon></button>
-                    <button mat-mini-fab color="warn" matTooltip="Delete"><mat-icon>delete</mat-icon></button>
+                    <button mat-mini-fab color="primary" style="margin-right: 10px;" matTooltip="Edit" (click)="updateProduct(element)"><mat-icon>edit</mat-icon></button>
+                    <button mat-mini-fab color="warn" matTooltip="Delete" (click)="deleteProduct(element)"><mat-icon>delete</mat-icon></button>
                   </div>
                   
                 </div>

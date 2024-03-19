@@ -33,6 +33,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { SnackbarService } from "../../../../services/snackbar.service";
 import { LoaderService } from "../../../../services/loader.service";
 import { WomenService } from "../women/womenService";
+import { KidsService } from "../kids/kidsService";
 
 @Component({
   selector: "app-men",
@@ -82,11 +83,15 @@ export class MenComponent implements OnInit {
   activatedRoute = inject(ActivatedRoute)
   // womenService = inject(WomenService)
   womenProductData: any
+  kidsProductData : any
   router = inject(Router)
-  constructor(private _womenService: WomenService) {
+  constructor(private _womenService: WomenService, private _kidsService: KidsService) {
     this._womenService.isOpen$.subscribe(isOpen => {
       this.isDrawerOpen = isOpen;
     });
+    this._kidsService.isOpen$.subscribe(isOpen => {
+      this.isDrawerOpen = isOpen
+    })
   }
   ngOnInit(): void {
       this.getProducts();
@@ -120,6 +125,18 @@ export class MenComponent implements OnInit {
              
       })
       this.onMenDrawerFormDataChange(this.womenProductData)
+     
+      }
+      //for Kids
+      if (params['openDrawerforKids']) {
+        this._kidsService.openDrawer();
+       this._kidsService.formData$.subscribe(res => {
+        
+        this.menDrawerContentTitle = "Update Product"
+        this.kidsProductData = res;
+             
+      })
+      this.onMenDrawerFormDataChange(this.kidsProductData)
      
       }
     })
@@ -173,6 +190,10 @@ export class MenComponent implements OnInit {
       if(params['openDrawer']){
         this._womenService.closeDrawer()
        this.router.navigate(['admin/dashboard/products/women'])
+      }
+      if(params['openDrawerForKids']){
+        this._kidsService.closeDrawer()
+       this.router.navigate(['admin/dashboard/products/kids'])
       }
     })
     
@@ -309,6 +330,10 @@ export class MenComponent implements OnInit {
       if(params['openDrawer']){
         this._womenService.closeDrawer()
        this.router.navigate(['admin/dashboard/products/women'])
+      }
+      if(params['openDrawerforKids']){
+        this._kidsService.closeDrawer()
+       this.router.navigate(['admin/dashboard/products/kids'])
       }
     })
     this.drawer.close();

@@ -191,7 +191,7 @@ export class MenComponent implements OnInit {
         this._womenService.closeDrawer()
        this.router.navigate(['admin/dashboard/products/women'])
       }
-      if(params['openDrawerForKids']){
+      if(params['openDrawerforKids']){
         this._kidsService.closeDrawer()
        this.router.navigate(['admin/dashboard/products/kids'])
       }

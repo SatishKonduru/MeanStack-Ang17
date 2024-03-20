@@ -1,6 +1,4 @@
 import {
-  AfterContentInit,
-  AfterViewInit,
   Component,
   ElementRef,
   OnInit,
@@ -8,16 +6,14 @@ import {
   inject,
 } from '@angular/core';
 import { AngularMaterialModule } from '../../angular-material/angular-material.module';
-import { jwtDecode } from 'jwt-decode';
 import { RouterModule } from '@angular/router';
 
-import { HttpClient } from '@angular/common/http';
 import { Observable, map, shareReplay } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { TokenAuthService } from '../../../services/tokenAuth.service';
 import { DashboardService } from './dashboardService';
 import * as echarts from 'echarts';
-import { productModel } from '../../../shared/models/model';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -25,7 +21,7 @@ import { productModel } from '../../../shared/models/model';
   imports: [AngularMaterialModule, RouterModule, CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
-  providers: [TokenAuthService],
+  
 })
 export class DashboardComponent implements OnInit{
   count$!: Observable<any>;
@@ -35,10 +31,9 @@ export class DashboardComponent implements OnInit{
   womenCount: number = 0;
   kidsCount: number = 0;
 
-  @ViewChild('echartsPieContainer', { static: true })  echartsPieContainer!: ElementRef;
-  @ViewChild('echartsColumnContainer', { static: true })  echartsColumnContainer!: ElementRef;
-  menService: any;
-  loaderService: any;
+  @ViewChild('PieContainer', { static: true })  PieContainer!: ElementRef;
+  @ViewChild('LineContainer', { static: true })  LineContainer!: ElementRef;
+ 
   ngOnInit(): void {
     this.count$ = this.dashboardService
       .getCount()
@@ -47,10 +42,9 @@ export class DashboardComponent implements OnInit{
       this.dashboardService.getProducts().subscribe((data:any) => {
        if (data.products) {
           this.products = data.products;
-          console.log("Products: ", this.products)
           this.countCategories();
           this.renderPieChart()
-          this.renderColumnChart()
+          this.renderLineChart()
        }
       })
       
@@ -59,20 +53,19 @@ export class DashboardComponent implements OnInit{
     this.menCount = this.products
       .filter(product => product.category.name === 'Men')
       .reduce((total, product) => total + product.countInStock, 0);
-      console.log("Men Count: ", this.menCount)
+    
 
       this.womenCount = this.products
       .filter(product => product.category.name === 'Women')
       .reduce((total, product) => total + product.countInStock, 0);
-      console.log("Women Count: ", this.womenCount)
-
+  
       this.kidsCount = this.products
       .filter(product => product.category.name === 'Kids')
       .reduce((total, product) => total + product.countInStock, 0);
-      console.log("Men Count: ", this.kidsCount)
+     
   }
   renderPieChart(): void {
-    const echartsElement: HTMLElement = this.echartsPieContainer.nativeElement;
+    const echartsElement: HTMLElement = this.PieContainer.nativeElement;
  
     if (!echartsElement) {
       console.error('Echarts container is not available');
@@ -96,18 +89,24 @@ export class DashboardComponent implements OnInit{
         {
           name: 'Category of',
           type: 'pie',
-          radius: '80%',
+          roseType: 'radius', // Set roseType to 'radius/ area' for padding between sectors
+          radius: '85%',
           data: [
+            
             { value: this.menCount, name: 'Men' },
-            { value: this.womenCount, name: 'Women' },
-            { value: this.kidsCount, name: 'Kids' },
+            { value: 5, name: '', label: { show: false } }, 
+            { value: this.womenCount, name: 'Women'},
+            { value: 5, name: '', label: { show: false } }, 
+            { value: this.kidsCount, name: 'Kids'},
+            { value: 5, name: '', label: { show: false } }
           ],
           emphasis: {
             itemStyle: {
-              shadowBlur: 20,
-              shadowOffsetX: 0,
-              shadowColor: '#668180',
+              shadowBlur: 10,
+              shadowOffsetX: 5,
+              shadowColor: '#000',
             },
+            // focus: 'self', // Increase the gap between sectors
           },
           color: ['#ff6666', '#009933', '#80b3ff'], // Example colors
         },
@@ -120,8 +119,8 @@ export class DashboardComponent implements OnInit{
       console.error('ECharts error:', error);
     });
   }
-  renderColumnChart() : void{
-    const echartsElement: HTMLElement = this.echartsColumnContainer.nativeElement;
+  renderLineChart() : void{
+    const echartsElement: HTMLElement = this.LineContainer.nativeElement;
 
     if (!echartsElement) {
       console.error('Echarts container is not available');
@@ -132,9 +131,7 @@ export class DashboardComponent implements OnInit{
     const option = {
       tooltip: {
        trigger: 'axis',
-       axisPointer: {
-         type: 'shadow'
-       }
+       
      },
      xAxis: {
        type: 'category',

@@ -183,9 +183,9 @@ router.patch('/update/:id', uploadOptions.single('image') ,authenticateToken, as
 
 })
 
-router.post('/reset-password',  async (req, res) => {
+router.post('/reset-password', async (req, res) => {
     const email = req.body.email
-   
+    console.log("User Email: ",email)
     try {
         // Find user by email
         const user = await User.findOne({ email });

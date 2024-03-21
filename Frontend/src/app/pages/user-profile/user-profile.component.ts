@@ -8,6 +8,8 @@ import { AngularMaterialModule } from '../../modules/angular-material/angular-ma
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { globalProperties } from '../../shared/globalProperties';
 import { SnackbarService } from '../../services/snackbar.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -29,6 +31,7 @@ private formBuilder = inject(FormBuilder)
 snackbar = inject(SnackbarService)
 responseMsg: any = ''
 userForm: any = FormGroup
+dialog = inject(MatDialog)
 ngOnInit(): void {
   this.userId =  this.userToken.getUserId()  
   this.getUserDetails(this.userId)
@@ -128,5 +131,15 @@ getUserDetails(userId: any){
     });
    
   }
+
+  changePassword(){
+    const dialogConfig = new MatDialogConfig()
+    dialogConfig.width = '500px'
+    dialogConfig.disableClose = true
+    dialogConfig.autoFocus = true
+    this.dialog.open(ForgotPasswordComponent, dialogConfig)
+  }
+
+
 
 }

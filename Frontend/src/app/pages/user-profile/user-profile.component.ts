@@ -31,7 +31,6 @@ responseMsg: any = ''
 userForm !: FormGroup
 ngOnInit(): void {
   this.userId =  this.userToken.getUserId()  
-  console.log("UserId: in Profle: ", this.userId)
   this.getUserDetails(this.userId)
 
   this.userForm = this.formBuilder.group({
@@ -45,8 +44,7 @@ ngOnInit(): void {
     country: ['']
   })
   this.userDetails$.subscribe(res => {
-    console.log("Details of USER: ", res)
-    this.userForm.patchValue(res)
+     this.userForm.patchValue(res)
   })
   
 }

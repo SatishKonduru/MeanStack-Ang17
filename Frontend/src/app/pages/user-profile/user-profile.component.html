@@ -1,10 +1,10 @@
 <div class="container-fluid" style="margin-bottom: 10rem;">
   
     <div class="row ">
-      <div class="col-sm-3 justify-content-center align-items-center" style="height: 100vh; ">
+      <div class="col-sm-3 " style="height: 100vh; ">
         <div class="text-center">
           <div  style=" width: 200px; height: 200px; box-shadow: var(--box-shadow);margin-top: 5rem; border-radius: 200px; margin-left: 50px;">
-            <img src="{{(userDetails$ | async)?.image}}" style="width: 200px; height: 200px; border-radius: 100%;">
+            <img src="{{(userDetails$ | async)?.image}}" class="w-100 h-100" style="border-radius: 200px;">
       
           </div>
   
@@ -51,7 +51,7 @@
         </div>
         <div class="row" >
             <div class="col-12 col-sm-12 text-center" style="height: 80vh;">
-              <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" >
+              <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="end" >
                 <mat-tab label="Personal Details" >
                     <mat-grid-list cols="1" rowHeight="400px"  gutterSize="10px">
                         <mat-grid-tile>
@@ -128,7 +128,7 @@
                             <div>Browse for Image to Upload <span style="color:red">*</span> </div>
                             <input matInput placeholder="Choose file" [value]="selectedFileName" #fileInputField readonly style="display: none;">
                             <input #fileInput type="file" id="image" name="image" (change)="onFileSelected($event)" style="display: none;">
-                            <button mat-mini-fab (click)="openFileInput()" tabindex="-1" color="primary">
+                            <button mat-mini-fab (click)="openFileInput()" tabIndex="-1" color="primary" >
                               <mat-icon>attach_file</mat-icon>
                             </button>
                           </div>

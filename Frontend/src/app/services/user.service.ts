@@ -32,7 +32,7 @@ export class UserService {
     return this._http.get<userModel>(`${this._URL}/user/getById/${uId}`)
   }
   
-  updateProduct(pId: any, data: any){
-    return this._http.patch(`${this._URL}/user/update/${pId}`, data)
+  updateUser(uId: any, data: any){
+    return this._http.patch(`${this._URL}/user/update/${uId}`, data)
 }
 }

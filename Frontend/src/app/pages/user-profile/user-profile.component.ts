@@ -110,7 +110,7 @@ getUserDetails(userId: any){
     formData.append("image", imageFile);
 
   
-    this.userService.updateProduct(this.userId, formData).subscribe({
+    this.userService.updateUser(this.userId, formData).subscribe({
       next: (res: any) => {
         if (res?.message) {
           this.responseMsg = res?.message;

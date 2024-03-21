@@ -28,7 +28,7 @@ userDetails$ !: Observable<userModel>;
 private formBuilder = inject(FormBuilder)
 snackbar = inject(SnackbarService)
 responseMsg: any = ''
-userForm !: FormGroup
+userForm: any = FormGroup
 ngOnInit(): void {
   this.userId =  this.userToken.getUserId()  
   this.getUserDetails(this.userId)

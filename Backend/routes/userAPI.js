@@ -183,11 +183,23 @@ router.patch('/update/:id', uploadOptions.single('image') ,authenticateToken, as
 
 })
 
-router.post('/reset-password', authenticateToken, async (req, res) => {
+router.post('/reset-password',  async (req, res) => {
     const email = req.body.email
-    // console.log("Email: ", email)
-    //generate unique token
-    const token = crypto.randomBytes(64).toString('hex')
+   
+    try {
+        // Find user by email
+        const user = await User.findOne({ email });
+    
+        if (!user) {
+          return res.status(404).send({ message: 'User not found' });
+        }
+        // Generate reset token
+        const token = crypto.randomBytes(64).toString('hex')
+         
+        // Associate token with user's email (save token to user document)
+        user.resetToken = token;
+        await user.save();
+
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -201,14 +213,41 @@ router.post('/reset-password', authenticateToken, async (req, res) => {
         subject: 'Password Reset Link',
         text: `Click the following link to reset your password: http://localhost:4200/reset-password/${token}`
       };
-      try {
-        await transporter.sendMail(mailOptions);
-        res.status(200).send('Password reset email sent successfully.');
-      } catch (error) {
-        console.error('Error sending email:', error);
-        res.status(500).send('Error sending password reset email.');
-      }
+      transporter.sendMail(mailOptions);
+      res.status(200).send({
+        message: "Password Sent to your email"
+      });
+      
+  } catch (error) {
+    console.error('Error sending password reset email:', error);
+    res.status(500).send({ message: 'Internal server error' });
+  }
+  
 })
 
+router.post('/update-password', async (req, res) => {
+    const { token, newPassword } = req.body;
+  
+    try {
+      // Find user by reset token
+      const user = await User.findOne({ resetToken: token });
+  
+      if (!user) {
+        return res.status(404).send({ message: 'Invalid or expired token' });
+      }
+       // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update user's password and clear reset token
+    user.password = hashedPassword;
+    user.resetToken = null;
+    await user.save();
+
+    return res.status(200).send({ message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Error updating password:', error);
+   return res.status(500).send({ message: 'Internal server error' });
+  }
+});
 
 module.exports = router

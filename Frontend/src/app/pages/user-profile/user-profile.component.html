@@ -1,34 +1,40 @@
 <div class="container-fluid" style="margin-bottom: 10rem;">
+  
     <div class="row ">
-      <div class="col-sm-3 justify-content-center align-content-center" style="height: 100vh; ">
-        <div  style=" width: 200px; height: 200px; box-shadow: var(--box-shadow);margin-top: 5rem; border-radius: 200px; margin-left: 50px;">
-          <!-- <img src="{{(userDetails$ | async)?.image}}" style="width: 200px; height: 200px; border-radius: 100%;"> -->
-          <img src="../../../assets/brand/Brand.png" style="width: 200px; height: 200px; border-radius: 100%;">
+      <div class="col-sm-3 justify-content-center align-items-center" style="height: 100vh; ">
+        <div class="text-center">
+          <div  style=" width: 200px; height: 200px; box-shadow: var(--box-shadow);margin-top: 5rem; border-radius: 200px; margin-left: 50px;">
+            <img src="{{(userDetails$ | async)?.image}}" style="width: 200px; height: 200px; border-radius: 100%;">
+      
+          </div>
+  
+          <div style="margin-top: 1rem">
+            <span class="fs-2 text-danger">{{(userDetails$ | async)?.name}}</span>
+          </div>
+          <div style="margin-top: 1rem">
+            <span class="fs-5 text-success">{{(userDetails$ | async)?.email}}</span>
+          </div>
+          <div style="margin-top: 1rem">
+            <span class="fs-5 text-dark">{{(userDetails$ | async)?.phone}}</span>
+          </div>
+          <div style="margin-top: 1rem">
+            <span class="fs-6 text-info" style="cursor: pointer;">Change Password?</span>
+          </div>
         </div>
-
         
-
-        <div style="margin-top: 1rem;margin-left: 6.1rem;">
-          <span class="fs-2 text-danger">{{(userDetails$ | async)?.name}}</span>
-        </div>
-        <div style="margin-top: 1rem;margin-left: 2rem;">
-          <span class="fs-5 text-success">{{(userDetails$ | async)?.email}}</span>
-        </div>
-        <div style="margin-top: 1rem;margin-left: 5rem;">
-          <span class="fs-5 text-dark">{{(userDetails$ | async)?.phone}}</span>
-        </div>
-        <div style="margin-top: 1rem;margin-left: 4rem;">
-          <span class="fs-6 text-info" style="cursor: pointer;">Change Password?</span>
-        </div>
         
       </div>
       <div class="col-sm-9 " >
         <div class="row p-2" >
-          <div class="col-8 col-sm-6 bg-info p-5" style="height: 15vh;" >
-           Orders Count here
+          <div class="col-8 col-sm-6  "  >
+            <div class="d-flex justify-content-center align-items-center  rounded-5" style="height: 18vh; width: 250px; box-shadow: var(--box-shadow);" >
+              Total Orders: <span class="fs-1 text-danger m-lg-4"> ?</span>
+            </div>
           </div>
-          <div class="col-4 col-sm-6 bg-dark-subtle p-5" style="height: 15vh;">
-            Wishlist Count here
+          <div class="col-4 col-sm-6 ">
+            <div class="d-flex justify-content-center align-items-center  rounded-5" style="height: 18vh; width: 250px; box-shadow: var(--box-shadow);" >
+              Total Wishlist: <span class="fs-1 text-danger m-lg-4"> ?</span>
+            </div>
           </div>
         </div>
         <div class="row" >
@@ -36,10 +42,10 @@
               <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" >
                 <mat-tab label="Personal Details" >
                     <mat-grid-list cols="1" rowHeight="400px"  gutterSize="10px">
-                        <mat-grid-tile class="mt-3">
+                        <mat-grid-tile>
                           <div class="row w-100 h-100 ">
                               <div class="d-flex">
-                                <form [formGroup]="userForm">
+                                <form [formGroup]="userForm" style="margin-top: 10px;">
                                   <div class="col" style="margin-right: 20px; width: 400px">
                                    
                                     <p>
@@ -70,7 +76,7 @@
                                   </form>
                                   
                                   <div class="col w-100">
-                                    <form [formGroup]="userForm">
+                                    <form [formGroup]="userForm" style="margin-top: 10px;">
                                     <p>
                                       <mat-form-field appearance="outline" class="w-100">
                                         <mat-label>Street:</mat-label>
@@ -124,7 +130,7 @@
                       
                    </div>
                    <div>
-                    <button mat-mini-fab color="warn"><mat-icon>save</mat-icon></button>
+                    <button mat-mini-fab color="warn" (click)="updateUser()"><mat-icon>save</mat-icon></button>
                    </div>
                    
                 </mat-tab>

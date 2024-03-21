@@ -135,9 +135,9 @@ router.patch('/update/:id', uploadOptions.single('image') ,authenticateToken, ch
         const basePath = `${req.protocol}://${req.get('host')}/public/uploads/` 
         imagePath = `${basePath}${fileName}`
     }
-    else{
-        imagePath = product.image
-    }
+    // else{
+    //     imagePath = product.image
+    // }
     updateProduct = await Product.findByIdAndUpdate(productId, {
         name: newData.name,
         description: newData.description,

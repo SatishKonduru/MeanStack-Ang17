@@ -7,7 +7,31 @@ const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const { authenticateToken } = require('../AuthServices/authorization')
 const { checkRole } = require('../AuthServices/checkRole')
+const multer = require('multer')
 
+//multer configuration
+const FILE_TYPE_MAP = {
+    'image/png' : 'png',
+    'image/jpeg' : 'jpeg',
+    'image/jpg' : 'jpg'
+}
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const isValid = FILE_TYPE_MAP[file.mimetype]
+        let uploadError = new Error('Invalid Image Type')
+        if(isValid){
+            uploadError = null
+        }
+      cb(uploadError , 'public/uploads')
+    },
+    filename: function (req, file, cb) { 
+       //   const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      const fileName = file.originalname.split(' ').join('-')
+      const extension = FILE_TYPE_MAP[file.mimetype]
+      cb(null, `${fileName}-${Date.now()}.${extension}`)
+    }
+  })
+  const uploadOptions = multer({ storage: storage })
 
 //getting All users
 router.get('/getUsers', authenticateToken, checkRole, async (req, res) => {
@@ -65,7 +89,7 @@ router.get('/getById/:id',authenticateToken, async (req, res) => {
     if(!mongoose.isValidObjectId(id)){
         return res.status(401).send({message: 'Invalid User Id'})
     }
-    userDetails = await User.findById(id).select('name phone email city')
+    userDetails = await User.findById(id)
     if(userDetails.length <= 0){
         return res.status(500).send({
             message: 'Internal Server Error. Please try later'
@@ -105,6 +129,51 @@ router.post('/login', async (req, res) => {
         })
     }
     
+
+})
+
+router.patch('/update/:id', uploadOptions.single('image') ,authenticateToken, async (req, res) => {
+    const productId= req.params.id
+    const newData = req.body
+    if(!mongoose.isValidObjectId(productId)){
+        return res.status(500).send({
+            message: 'Invalid Object Id'
+        })
+    }
+    const file = req.file
+    let imagePath;
+    if(file){
+        const fileName = req.file.filename
+        const basePath = `${req.protocol}://${req.get('host')}/public/uploads/` 
+        imagePath = `${basePath}${fileName}`
+    }
+    // else{
+    //     imagePath = product.image
+    // }
+    updateUser = await User.findByIdAndUpdate(productId, {
+        name: newData.name,
+        email: newData.email,
+        phone: newData.phone,
+        apartment: newData.apartment,
+        street: newData.street,
+        city: newData.city,
+        state: newData.state,
+        country: newData.country,
+        image: imagePath
+       },
+        {new: true}
+        )
+    if(!updateUser){
+       return res.status(500).send({
+            message: "Invalid Product Selection"
+        })
+    }
+    else{
+       return res.status(200).send({
+            message: 'Product Updated Successfully',
+            newData: updateUser
+        })
+    }
 
 })
 

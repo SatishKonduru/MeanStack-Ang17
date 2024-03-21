@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { AngularMaterialModule } from '../../modules/angular-material/angular-material.module';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { globalProperties } from '../../shared/globalProperties';
+import { SnackbarService } from '../../services/snackbar.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -25,6 +26,8 @@ userService = inject(UserService)
 userDetails$ !: Observable<userModel>;
 
 private formBuilder = inject(FormBuilder)
+snackbar = inject(SnackbarService)
+responseMsg: any = ''
 userForm !: FormGroup
 ngOnInit(): void {
   this.userId =  this.userToken.getUserId()  
@@ -42,6 +45,7 @@ ngOnInit(): void {
     country: ['']
   })
   this.userDetails$.subscribe(res => {
+    console.log("Details of USER: ", res)
     this.userForm.patchValue(res)
   })
   
@@ -49,7 +53,7 @@ ngOnInit(): void {
 
 getUserDetails(userId: any){
     this.userDetails$ = this.userService.getUserById(userId).pipe(
-      map((res: any) => res.userDetails),
+      map((res: any) =>  res.userDetails),
       shareReplay()
     )
 }
@@ -85,6 +89,46 @@ getUserDetails(userId: any){
     };
 
     reader.readAsDataURL(file);
+  }
+
+
+  updateUser(){
+    const userDetails = this.userForm.value;
+
+    const imageFile = this.image;
+
+    const formData = new FormData();
+    formData.append("name", userDetails.name);
+    formData.append("email", userDetails.email);
+    formData.append("phone", userDetails.phone);
+    formData.append("apartment", userDetails.apartment);
+    formData.append("street", userDetails.street);
+    formData.append("city", userDetails.city);
+    formData.append("state", userDetails.state);
+    formData.append("country", userDetails.country);
+    
+    formData.append("image", imageFile);
+
+  
+    this.userService.updateProduct(this.userId, formData).subscribe({
+      next: (res: any) => {
+        if (res?.message) {
+          this.responseMsg = res?.message;
+          this.getUserDetails(this.userId)
+          this.snackbar.openSnackbar(this.responseMsg, "success");
+        }
+      },
+
+      error: (err: any) => {
+         if (err.error?.message) {
+            this.responseMsg = err.error?.message;
+          } else {
+            this.responseMsg = globalProperties.genericError;
+          }
+          this.snackbar.openSnackbar(this.responseMsg, globalProperties.error);
+        }
+    });
+   
   }
 
 }

@@ -133,9 +133,9 @@ router.post('/login', async (req, res) => {
 })
 
 router.patch('/update/:id', uploadOptions.single('image') ,authenticateToken, async (req, res) => {
-    const productId= req.params.id
+    const userId= req.params.id
     const newData = req.body
-    if(!mongoose.isValidObjectId(productId)){
+    if(!mongoose.isValidObjectId(userId)){
         return res.status(500).send({
             message: 'Invalid Object Id'
         })
@@ -150,7 +150,7 @@ router.patch('/update/:id', uploadOptions.single('image') ,authenticateToken, as
     // else{
     //     imagePath = product.image
     // }
-    updateUser = await User.findByIdAndUpdate(productId, {
+    updateUser = await User.findByIdAndUpdate(userId, {
         name: newData.name,
         email: newData.email,
         phone: newData.phone,

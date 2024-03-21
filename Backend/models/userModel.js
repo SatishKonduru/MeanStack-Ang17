@@ -48,7 +48,11 @@ const userSchema = new mongoose.Schema({
   image: {
     type: String,
     default: ''
-  }
+  },
+  orders: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Orders'
+    }]
 });
 
 userSchema.virtual('id').get(function() {

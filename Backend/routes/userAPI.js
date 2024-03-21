@@ -165,12 +165,12 @@ router.patch('/update/:id', uploadOptions.single('image') ,authenticateToken, as
         )
     if(!updateUser){
        return res.status(500).send({
-            message: "Invalid Product Selection"
+            message: "Invalid User Selection"
         })
     }
     else{
        return res.status(200).send({
-            message: 'Product Updated Successfully',
+            message: 'User Updated Successfully',
             newData: updateUser
         })
     }

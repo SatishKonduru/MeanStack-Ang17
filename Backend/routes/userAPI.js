@@ -8,6 +8,12 @@ const jwt = require('jsonwebtoken')
 const { authenticateToken } = require('../AuthServices/authorization')
 const { checkRole } = require('../AuthServices/checkRole')
 const multer = require('multer')
+const crypto = require('crypto')
+const nodemailer = require('nodemailer')
+require('dotenv').config()
+
+
+
 
 //multer configuration
 const FILE_TYPE_MAP = {
@@ -176,5 +182,33 @@ router.patch('/update/:id', uploadOptions.single('image') ,authenticateToken, as
     }
 
 })
+
+router.post('/reset-password', authenticateToken, async (req, res) => {
+    const email = req.body.email
+    // console.log("Email: ", email)
+    //generate unique token
+    const token = crypto.randomBytes(64).toString('hex')
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
+        }
+    })
+    const mailOptions = {
+        from: process.env.EMAIL,
+        to: email,
+        subject: 'Password Reset Link',
+        text: `Click the following link to reset your password: http://localhost:4200/reset-password/${token}`
+      };
+      try {
+        await transporter.sendMail(mailOptions);
+        res.status(200).send('Password reset email sent successfully.');
+      } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).send('Error sending password reset email.');
+      }
+})
+
 
 module.exports = router

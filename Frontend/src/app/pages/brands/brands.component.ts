@@ -10,5 +10,5 @@ import { Component } from '@angular/core';
   styleUrl: './brands.component.css'
 })
 export class BrandsComponent {
-
+  timestamp = Date.now();
 }

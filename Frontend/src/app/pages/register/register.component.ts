@@ -24,6 +24,7 @@ import { SnackbarService } from '../../services/snackbar.service';
 export class RegisterComponent implements OnInit{
   registerForm : any = FormGroup;
   responseMsg: string =''
+  timestamp = Date.now();
   constructor(
     private _formBuilder: FormBuilder,
     private _userService: UserService,

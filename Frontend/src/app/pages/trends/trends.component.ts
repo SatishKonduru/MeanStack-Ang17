@@ -9,5 +9,5 @@ import { AngularMaterialModule } from '../../modules/angular-material/angular-ma
   styleUrl: './trends.component.css'
 })
 export class TrendsComponent {
-
+  timestamp = Date.now();
 }

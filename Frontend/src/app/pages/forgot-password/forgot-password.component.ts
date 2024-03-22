@@ -32,7 +32,10 @@ export class ForgotPasswordComponent implements OnInit{
     var data = {
       email: formData.email
     }
-   
+  const token = sessionStorage.getItem('token')
+  if(token){
+    sessionStorage.removeItem('token')
+  }
     this.userService.getPasswordResetLink(data).subscribe({
       next: (res: any) => {
         if(res?.message){

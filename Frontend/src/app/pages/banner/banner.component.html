@@ -32,7 +32,7 @@
           @for(image of images; track image){
           <div class="carousel-item active">
             <img
-              src="{{ image }}"
+              src="{{ image }}?v={{timestamp}}"
               class="d-block w-100 h-20"
               style="border-radius: 10px"
             />
@@ -63,14 +63,14 @@
       <div class="row">
         <div class="col-sm-12 mb-3">
           <img
-            src="../../../assets/banner/b4.png"
+            src="../../../assets/banner/b4.png?v={{timestamp}}"
             class="d-block w-100 h-100"
             style="border-radius: 10px"
           />
         </div>
         <div class="col-sm-12">
           <img
-            src="../../../assets/banner/b5.png"
+            src="../../../assets/banner/b5.png?v={{timestamp}}"
             class="d-block w-100 h-100"
             style="border-radius: 10px"
           />

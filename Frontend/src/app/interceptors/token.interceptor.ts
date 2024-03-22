@@ -13,14 +13,16 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
         Authorization: `Bearer ${token}`
       }
     })
+    return next(req).pipe(catchError(error=>{
+      console.log("Error :", error)
+      if(error){
+        sessionStorage.removeItem('token')
+        router.navigate(['/'])
+      }
+      return throwError(() => new Error('Error with user token'))
+    }))
   }
+  return next(req)
 
-  return next(req).pipe(catchError(error=>{
-    console.log("Error :", error)
-    if(error){
-      sessionStorage.removeItem('token')
-      router.navigate(['/'])
-    }
-    return throwError(() => new Error('Error with user token'))
-  }))
+ 
 };

@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit{
   menCount: number = 0;
   womenCount: number = 0;
   kidsCount: number = 0;
-
+  timestamp = Date.now();
   @ViewChild('PieContainer', { static: true })  PieContainer!: ElementRef;
   @ViewChild('LineContainer', { static: true })  LineContainer!: ElementRef;
  

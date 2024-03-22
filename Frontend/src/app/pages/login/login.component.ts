@@ -9,6 +9,7 @@ import { SnackbarService } from '../../services/snackbar.service';
 import { globalProperties } from '../../shared/globalProperties';
 import { jwtDecode } from 'jwt-decode';
 import { TokenAuthService } from '../../services/tokenAuth.service';
+import { map, pipe } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,7 @@ export class LoginComponent implements OnInit {
 loginForm : any = FormGroup
 responseMsg: string = ''
 payload: any = {}
+timestamp = Date.now();
 constructor(
   private _formBuilder: FormBuilder, 
   private _userService: UserService,
@@ -62,6 +64,7 @@ onLogin(){
         this._router.navigate(['/'])
     },
     error: (err: any) => {
+      console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", err)
       if(err.error?.message){
         this.responseMsg = err.error?.message
       }

@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
 export class DashboardService {
     private _url = environment.apiUrl
     private _http = inject(HttpClient)
-
+   
     getCount(): Observable<any> {
         return this._http.get<any>(`${this._url}/product/getCount`)
     }

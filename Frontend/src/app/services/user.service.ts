@@ -39,4 +39,8 @@ export class UserService {
   getPasswordResetLink(data: any): Observable<any>{
     return this._http.post<any>(`${this._URL}/user/reset-password`, data)
   }
+
+  updatePassword(data: any): Observable<any> {
+    return this._http.post<any>(`${this._URL}/user/update-password`, data)
+  }
 }

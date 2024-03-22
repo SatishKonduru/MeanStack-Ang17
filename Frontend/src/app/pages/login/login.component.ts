@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AngularMaterialModule } from '../../modules/angular-material/angular-material.module';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from '../register/register.component';
@@ -10,6 +10,8 @@ import { globalProperties } from '../../shared/globalProperties';
 import { jwtDecode } from 'jwt-decode';
 import { TokenAuthService } from '../../services/tokenAuth.service';
 import { map, pipe } from 'rxjs';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +21,8 @@ import { map, pipe } from 'rxjs';
     FormsModule,
     ReactiveFormsModule,
     RegisterComponent,
-    RouterModule
+    RouterModule,
+    ForgotPasswordComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -34,12 +37,15 @@ loginForm : any = FormGroup
 responseMsg: string = ''
 payload: any = {}
 timestamp = Date.now();
+dialog = inject(MatDialog)
+
 constructor(
   private _formBuilder: FormBuilder, 
   private _userService: UserService,
   private _snackbar: SnackbarService,
   private _router: Router,
   private _tokenAuthService: TokenAuthService
+
 ){}
 ngOnInit(): void {
     this.loginForm = this._formBuilder.group({
@@ -64,7 +70,6 @@ onLogin(){
         this._router.navigate(['/'])
     },
     error: (err: any) => {
-      console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", err)
       if(err.error?.message){
         this.responseMsg = err.error?.message
       }
@@ -76,6 +81,13 @@ onLogin(){
   })
 }
 
+forgotPassword(){
+  const dialogConfig = new MatDialogConfig()
+  dialogConfig.width = '500px'
+  dialogConfig.disableClose = true
+  dialogConfig.autoFocus = true
+  this.dialog.open(ForgotPasswordComponent, dialogConfig)
 
+}
 
 }

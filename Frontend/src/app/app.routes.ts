@@ -5,6 +5,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { adminGuard } from './guards/admin.guard';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
+import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
 
 export const routes: Routes = [
     {
@@ -32,6 +33,10 @@ export const routes: Routes = [
     {
         path: 'profile',
         component: UserProfileComponent
+    },
+    {
+        path: 'reset-password/:token',
+        component: PasswordResetComponent
     },
     {
         path: '**',

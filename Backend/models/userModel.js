@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const {Order} = require('./orderModel')
+const {Product} =  require('./productModel')
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -50,13 +53,15 @@ const userSchema = new mongoose.Schema({
     default: ''
   },
   wishlist: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Products'
-    }],
+             productId: {
+                        type: mongoose.Schema.Types.ObjectId,
+                        ref: 'Product' 
+             }
+   }],
   orders: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Orders'
-    }],
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Order'
+          }],
   resetToken: { 
     type: String 
   }

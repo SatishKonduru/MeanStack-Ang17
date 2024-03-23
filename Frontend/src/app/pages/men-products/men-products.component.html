@@ -9,7 +9,7 @@
         }
         @for(product of menProducts$ | async; track product){
             <div class="card animate__animated animate__flipInY p-2 products" style="width: 18rem;   margin-left: 2rem;   margin-top: 1rem;" >
-                <img src="{{product.image}}" class="card-img-top h-100" >
+                <img src="{{product.image}}" class="card-img-top h-100 rounded-2" >
                 <div class="card-body">
                 <h5 class="card-title">{{product.name}}</h5>
                 <div class="d-flex justify-content-between">

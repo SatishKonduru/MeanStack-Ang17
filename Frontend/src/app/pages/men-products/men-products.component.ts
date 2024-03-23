@@ -19,13 +19,12 @@ export class MenProductsComponent implements OnInit{
   menProducts$!: Observable<productModel[]>;
   loaderService = inject(LoaderService);
   spinnerSize: number = 30;
-prodcut: any;
+
   ngOnInit(): void {
       this.getProducts()
   }
   getProducts() {
     const products$ = this.menService.getProducts()
-    products$.subscribe(res => console.log(res))
     const loadProducts$ = this.loaderService.showLoader(products$);
     this.menProducts$ = loadProducts$.pipe(
       map((res: any) => {

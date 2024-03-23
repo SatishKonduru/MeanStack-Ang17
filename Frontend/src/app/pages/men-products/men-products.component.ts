@@ -45,7 +45,7 @@ export class MenProductsComponent implements OnInit{
     dialogConfig.data = product
     dialogConfig.width = '1024px'
     dialogConfig.autoFocus = true
-    // dialogConfig.disableClose = true
+    dialogConfig.disableClose = true
     this.dialog.open(ProductDetailsComponent, dialogConfig)
   }
 

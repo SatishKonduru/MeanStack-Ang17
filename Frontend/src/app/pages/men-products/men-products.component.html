@@ -1,1 +1,22 @@
-<p>men-products works!</p>
+<div class="container-fluid">
+    <div class="col-12" style="height: 300px;">
+        <img src="../../../assets/banner/menBanner.jpg?v={{timestamp}}" class="w-50 h-100">
+        <img src="../../../assets/banner/menBanner.jpg?v={{timestamp}}" class="w-50 h-100 " style="transform: scaleX(-1);">
+    </div>
+    <div class="col-md-12 col-sm-6 d-flex">
+        @if(loaderService.loader$ | async){
+            <mat-spinner color="warn" [diameter]="spinnerSize" ></mat-spinner>
+        }
+        @for(product of menProducts$ | async; track product){
+            <div class="card animate__animated animate__flipInY" style="width: 18rem; " >
+                <img src="{{product.image}}" class="card-img-top h-100" >
+                <div class="card-body">
+                <h5 class="card-title">{{product.name}}</h5>
+                <p class="card-text">{{product.description}}</p>
+                <!-- <a href="#" class="btn btn-danger">view</a> -->
+                <button mat-mini-fab color="primary" style="font-size: 8px; padding: 4px;" ><mat-icon >visibility</mat-icon></button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

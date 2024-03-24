@@ -155,8 +155,39 @@
               </mat-tab>  
                 <mat-tab label="Wishlist" >
                   <mat-grid-list cols="1" rowHeight="440px"  gutterSize="10px">
-                      <mat-grid-tile class="bg-success">
-                             Wishlist here
+                      <mat-grid-tile >
+                    <div *ngIf="(userDetails$ | async) as userDetails">
+                          <table class="table w-100" style="overflow-y: scroll;">
+                            <thead>
+                              <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Color</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Style</th>
+                                <th scope="col">Season</th>
+                              </tr>
+                            </thead> 
+                          @for(product of userDetails.wishlist ; track product){
+                              <tbody>
+                                  <tr>
+                                    <td>{{product.name}}</td>
+                                    <td><img src="{{product.image}}" width="100px"   height="100px"></td>
+                                    <td>{{product.color}}</td>
+                                    <td>&#8377; {{product.price}} /-</td>
+                                    <td>{{product.size}}</td>
+                                    <td>{{product.style}}</td>
+                                    <td>{{product.season}}</td>
+                                  </tr>
+                                </tbody>
+                              
+                            }
+                          </table>     
+                            </div>
+                                
+                            
+                             
                       </mat-grid-tile>
                  </mat-grid-list>
               </mat-tab>

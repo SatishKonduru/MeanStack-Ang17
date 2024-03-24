@@ -26,7 +26,7 @@ snackbar = inject(SnackbarService)
 router = inject(Router)
 dialogRef = inject(MatDialogRef<ProductDetailsComponent>)
 constructor(@Inject(MAT_DIALOG_DATA) public dialogData : any){
-  const htmlString = dialogData.richDescription;
+    const htmlString = dialogData.richDescription;
     this.htmlContent = this.sanitizer.bypassSecurityTrustHtml(htmlString);
 }
 

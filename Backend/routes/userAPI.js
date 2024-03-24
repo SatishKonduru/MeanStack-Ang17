@@ -95,7 +95,7 @@ router.get('/getById/:id',authenticateToken, async (req, res) => {
     if(!mongoose.isValidObjectId(id)){
         return res.status(401).send({message: 'Invalid User Id'})
     }
-    userDetails = await User.findById(id)
+    userDetails = await User.findById(id).populate('wishlist');
     if(userDetails.length <= 0){
         return res.status(500).send({
             message: 'Internal Server Error. Please try later'

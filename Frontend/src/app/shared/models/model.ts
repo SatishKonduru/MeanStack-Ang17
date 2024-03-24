@@ -1,3 +1,15 @@
+export interface WishlistItem {
+    _id: string; // Assuming _id is a string
+    name: string;
+    description: string;
+    image: string,
+    color: string;
+    price: number,
+    size: string,
+    style: string,
+    season: string,
+    // Add other properties as needed
+}
 export interface userModel{
     name: string,
     email: string,
@@ -12,7 +24,7 @@ export interface userModel{
     role? : string,
     image? :  string,
     orders? : [string],
-    wishlist? : [string]
+    wishlist? : WishlistItem[];
 }
 
 export interface productModel{

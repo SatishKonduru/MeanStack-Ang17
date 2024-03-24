@@ -21,6 +21,9 @@ import { ForgotPasswordComponent } from '../forgot-password/forgot-password.comp
 
 
 export class UserProfileComponent implements OnInit{
+isObject(_t181: userModel): any {
+throw new Error('Method not implemented.');
+}
 
 userId: any;
 userToken  = inject(TokenAuthService)
@@ -57,6 +60,7 @@ getUserDetails(userId: any){
       map((res: any) =>  res.userDetails),
       shareReplay()
     )
+    this.userDetails$.subscribe(res=> console.log("USerDetails: ", res))
 }
 
 @ViewChild("fileInput") fileInput!: ElementRef;

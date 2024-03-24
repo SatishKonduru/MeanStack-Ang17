@@ -6,7 +6,7 @@ function authenticateToken(req, res, next) {
     const token = authHeader && authHeader.split(' ')[1]
     if(token == null){
         return res.status(401).send({
-            message: 'Unauthorized. NULL token found'
+            message: 'Unauthorized. NULL token found, Please Login with Valid email'
         })
     }
     jwt.verify(token, process.env.SECRET_KEY, (err, response) => {

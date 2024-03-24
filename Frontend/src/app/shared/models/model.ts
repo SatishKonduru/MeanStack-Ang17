@@ -10,7 +10,9 @@ export interface userModel{
     zip? : string,
     country? : string,
     role? : string,
-    image? :  string
+    image? :  string,
+    orders? : [string],
+    wishlist? : [string]
 }
 
 export interface productModel{

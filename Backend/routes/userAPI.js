@@ -250,4 +250,38 @@ router.post('/update-password', async (req, res) => {
   }
 });
 
+
+//adding product to wishlist
+router.patch('/addToWishList/:id', authenticateToken, async (req, res) => {
+    try {
+        const wishlistProduct = req.body.product.id; 
+        const userId = req.params.id;
+       if (!mongoose.isValidObjectId(userId)) {
+            return res.status(500).send({
+                message: 'Invalid Object Id'
+            });
+        }
+
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send({ message: 'User not found' });
+        }
+
+        // Check if the product already exists in the wishlist
+        const isProductInWishlist = user.wishlist.some(item => item.equals(wishlistProduct));
+        if (isProductInWishlist) {
+            return res.status(400).send({ message: 'Product already in wishlist' });
+        }
+
+        // Push the product's ObjectId to the wishlist array
+        user.wishlist.push(wishlistProduct);
+        // await user.save();
+        await user.save();
+        return res.status(200).send({ message: 'Product added to wishlist successfully' });
+    } 
+    catch (error) {
+        console.error('Error adding product to wishlist:', error);
+        return res.status(500).send({ message: 'Internal server error' });
+    }
+});
 module.exports = router

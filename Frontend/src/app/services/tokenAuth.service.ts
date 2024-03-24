@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { jwtDecode } from "jwt-decode";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, throwError } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -28,10 +28,12 @@ export class TokenAuthService {
        let user : any
         if(token){
            user = jwtDecode(token)
+           return user.id
         }
-        return user.id
-        
-    }
+        else{
+          return  throwError('No token found')
+        }
+     }
    
     exit(){
         sessionStorage.removeItem('token');

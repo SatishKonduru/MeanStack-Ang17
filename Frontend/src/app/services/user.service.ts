@@ -43,4 +43,8 @@ export class UserService {
   updatePassword(data: any): Observable<any> {
     return this._http.post<any>(`${this._URL}/user/update-password`, data)
   }
+
+  addToWishList(userId: any, data: any) : Observable<userModel> {
+      return this._http.patch<userModel>(`${this._URL}/user/addToWishList/${userId}`, { product: data })
+  }
 }

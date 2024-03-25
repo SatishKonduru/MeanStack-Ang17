@@ -21,9 +21,7 @@ import { ForgotPasswordComponent } from '../forgot-password/forgot-password.comp
 
 
 export class UserProfileComponent implements OnInit{
-isObject(_t181: userModel): any {
-throw new Error('Method not implemented.');
-}
+
 
 userId: any;
 userToken  = inject(TokenAuthService)
@@ -35,9 +33,11 @@ snackbar = inject(SnackbarService)
 responseMsg: any = ''
 userForm: any = FormGroup
 dialog = inject(MatDialog)
+wishlistCount !: number;
 ngOnInit(): void {
   this.userId =  this.userToken.getUserId()  
   this.getUserDetails(this.userId)
+ this.getWishlistCount(this.userId)
 
   this.userForm = this.formBuilder.group({
     name: ['', Validators.required],
@@ -144,6 +144,15 @@ getUserDetails(userId: any){
     this.dialog.open(ForgotPasswordComponent, dialogConfig)
   }
 
-
+  getWishlistCount(uId: any){
+    this.userService.wishlistCount(uId).subscribe({
+      next: (res: any) => {
+        this.wishlistCount = res.wishlistCount
+      }, 
+      error: (err: any)=> {
+        // nothing to display
+      }
+    })
+  }
 
 }

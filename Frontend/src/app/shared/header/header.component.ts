@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { TokenAuthService } from '../../services/tokenAuth.service';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -20,11 +21,11 @@ import { CommonModule } from '@angular/common';
     TokenAuthService
   ]
 })
-export class HeaderComponent implements AfterViewChecked{
+export class HeaderComponent implements  AfterViewChecked{
 
 userToken$ !: Observable<string>
 
-constructor(private _router: Router, private _tokenAuth: TokenAuthService, private cdr: ChangeDetectorRef){
+constructor(private _router: Router, private _tokenAuth: TokenAuthService, private cdr: ChangeDetectorRef, private userService: UserService){
 
 }
 
@@ -33,6 +34,7 @@ ngAfterViewChecked(): void {
   this.userToken$ = this._tokenAuth.getToken()
   // this.userToken$ = this._tokenAuth.token$;
   this.cdr.detectChanges();
+
 }
 
 onExit(){

@@ -284,4 +284,28 @@ router.patch('/addToWishList/:id', authenticateToken, async (req, res) => {
         return res.status(500).send({ message: 'Internal server error' });
     }
 });
+
+//Get Wishlist count
+router.get('/wishlist/count/:id', authenticateToken, async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    // Find the user by ID and get the count of wishlist items
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const wishlistCount = user.wishlist.length;
+    
+    res.status(200).send({wishlistCount:  wishlistCount });
+  } catch (error) {
+    console.error('Error fetching wishlist count:', error);
+    res.status(500).send({ message: 'Internal server error' });
+  }
+});
+
+module.exports = router;
+
 module.exports = router

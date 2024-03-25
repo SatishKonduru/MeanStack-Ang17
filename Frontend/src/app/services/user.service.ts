@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { userModel } from '../shared/models/model';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { TokenAuthService } from './tokenAuth.service';
 
 @Injectable({
@@ -11,10 +11,14 @@ import { TokenAuthService } from './tokenAuth.service';
 export class UserService {
 
   private _URL = environment.apiUrl;
-  constructor(private _http: HttpClient) { }
+
   userToken : any
   userTokenInterceptor = inject(TokenAuthService)
+ 
 
+  constructor(private _http: HttpClient) {
+   
+  }
   userRegister(data: any){
     return this._http.post<userModel>(`${this._URL}/user/register`, data, {
       headers: new HttpHeaders().set('Content-Type','application/json')
@@ -46,5 +50,16 @@ export class UserService {
 
   addToWishList(userId: any, data: any) : Observable<userModel> {
       return this._http.patch<userModel>(`${this._URL}/user/addToWishList/${userId}`, { product: data })
+      
   }
+
+  wishlistCount(uId: any){
+  
+   return this._http.get<any>(`${this._URL}/user/wishlist/count/${uId}`)
+  }
+
+
+
+
 }
+

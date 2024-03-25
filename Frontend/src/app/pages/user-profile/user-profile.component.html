@@ -156,9 +156,10 @@
                 <mat-tab label="Wishlist" >
                   <mat-grid-list cols="1" rowHeight="440px"  gutterSize="10px">
                       <mat-grid-tile >
-                    <div *ngIf="(userDetails$ | async) as userDetails">
-                          <table class="table w-100" style="overflow-y: scroll;">
-                            <thead>
+                    <div *ngIf="(userDetails$ | async) as userDetails"  style="overflow-y: auto; max-height: 440px; width: 100%;">
+                      
+                          <table class="table  mt-3 " >
+                            <thead class="sticky-top">
                               <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Image</th>

@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, DoCheck, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, DoCheck, OnInit, inject } from '@angular/core';
 import { AngularMaterialModule } from '../../modules/angular-material/angular-material.module';
 import { ActivatedRoute, NavigationExtras, Router, RouterModule } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
@@ -6,6 +6,9 @@ import { TokenAuthService } from '../../services/tokenAuth.service';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
+import { CartComponent } from '../../pages/cart/cart.component';
+import { CartService } from '../../services/cart.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +16,8 @@ import { UserService } from '../../services/user.service';
   imports: [
     AngularMaterialModule,
     RouterModule,
-    CommonModule
+    CommonModule,
+    CartComponent
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
@@ -24,6 +28,7 @@ import { UserService } from '../../services/user.service';
 export class HeaderComponent implements  AfterViewChecked{
 
 userToken$ !: Observable<string>
+cartService = inject(CartService)
 
 constructor(private _router: Router, private _tokenAuth: TokenAuthService, private cdr: ChangeDetectorRef, private userService: UserService){
 
@@ -42,6 +47,8 @@ onExit(){
   this._router.navigate(['/']);
 }
 
-
+openCart(): void {
+  this.cartService.toggleCart();
+}
 
 }

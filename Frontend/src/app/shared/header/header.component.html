@@ -26,8 +26,15 @@
         </nav>
         <span class="spacer"></span>
        
-        <span><mat-icon type="button" style="font-size: 30px; margin-right: 2rem;padding-top:10px; color:azure" matBadge="?" matBadgeOverlap="false" matBadgeColor="accent" aria-hidden="false">add_shopping_cart</mat-icon></span>
+        <span>
+            <button mat-icon-button (click)="openCart()">  
+            <mat-icon type="button" style="font-size: 30px; margin-right: 2rem;padding-top:10px; color:azure" matBadge="?" matBadgeOverlap="false" matBadgeColor="accent" aria-hidden="false">add_shopping_cart</mat-icon>
+            </button>
+        </span>
 </mat-toolbar>
+@if(cartService.isCartOpen()){
+    <app-cart></app-cart>
+}
 
 <mat-menu #userMenu >
     <li mat-menu-item [routerLink]="'/profile'">Profile</li>

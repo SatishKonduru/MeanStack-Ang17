@@ -8,7 +8,8 @@ const { Cart } = require('../models/cartModel')
 router.put('/addToCart/:userId', authenticateToken, async (req, res) => {
     try {
         const userId = req.params.userId;
-        const productId = req.body.productId;
+        const productId = req.body.id;
+        console.log("Product Id in Backend: ", productId)
         const quantity = req.body.quantity || 1; // Default quantity is 1 if not provided
 
         let cart = await Cart.findOne({ user: userId });
@@ -16,9 +17,9 @@ router.put('/addToCart/:userId', authenticateToken, async (req, res) => {
         if (!cart) {
             cart = new Cart({ user: userId, items: [] });
         }
-
-        const existingItemIndex = cart.items.findIndex(item => item.product.toString() === productId);
-
+        console.log("Cart Items:", cart.items); // Log cart items
+        const existingItemIndex = cart.items.findIndex(item => item.product && item.product.toString() === productId);
+        console.log("Existing Item Index: ", existingItemIndex);
         if (existingItemIndex !== -1) {
             cart.items[existingItemIndex].quantity += quantity;
         } else {

@@ -43,7 +43,8 @@ export class MenProductsComponent implements OnInit{
     console.log("Product Details: ", product)
     const dialogConfig = new MatDialogConfig()
     dialogConfig.data = product
-    dialogConfig.width = '1024px'
+    dialogConfig.width = '940px'
+    dialogConfig.position = {left:'10px'}
     dialogConfig.autoFocus = true
     dialogConfig.disableClose = true
     this.dialog.open(ProductDetailsComponent, dialogConfig)

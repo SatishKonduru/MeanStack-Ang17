@@ -8,26 +8,33 @@
             <button mat-icon-button (click)="closeCart()" mat-dialog-close > <mat-icon>close</mat-icon></button>
             </mat-toolbar>
         <!-- Your cart content goes here -->
-            <table class="table" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Image</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    @for(product of (cartItems$ | async).items; track product){
+            @if(cartItems$| async){
+                <table class="table" style="width: 100%;">
+                    <thead>
                         <tr>
-                            <td>{{product?.product?.brand}}</td>
-                            <td><img src="{{product?.product?.image}}" width="50px" height="50px"></td>
-                            <td>{{product?.product?.price}}</td>
+                            <th>Name</th>
+                            <th>Image</th>
+                            <th>Price</th>
                         </tr>
-                        
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+    
+                        @for(product of (cartItems$ | async).items; track product){
+                            <tr>
+                                <td>{{product?.product?.name}}</td>
+                                <td><img src="{{product?.product?.image}}" width="50px" height="50px"></td>
+                                <td>{{product?.product?.price}}</td>
+                            </tr>
+                            
+                        }
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <button mat-raised-button color="warn" (click)="openCartDetails()">View</button>
+                </div>
+                
+            }
+           
            
        
     </div>

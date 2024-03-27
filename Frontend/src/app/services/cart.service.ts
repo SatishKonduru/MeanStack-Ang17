@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 
 @Injectable({
@@ -8,6 +8,8 @@ import { environment } from '../../environments/environment.development';
 })
 export class CartService {
   private isOpenSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private productAddedSource = new Subject<void>();
+  productAdded$ = this.productAddedSource.asObservable();
 
   url = environment.apiUrl
   http = inject(HttpClient)
@@ -19,7 +21,12 @@ export class CartService {
   isCartOpen(): Observable<boolean> {
     return this.isOpenSubject.asObservable();
   }
-
+  addToCart(uId: any, data: any): Observable<any>{
+  return  this.http.put<any>(`${this.url}/cart/addToCart/${uId}`, data)
+  }
+  notifyProductAdded(): void {
+    this.productAddedSource.next();
+  }
   getCartItems(userId: any): Observable<any>{
     return this.http.get<any>(`${this.url}/cart/getCart/${userId}`)
   }

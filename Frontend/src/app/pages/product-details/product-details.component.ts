@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AngularMaterialModule } from '../../modules/angular-material/angular-material.module';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -27,6 +27,7 @@ snackbar = inject(SnackbarService)
 router = inject(Router)
 cartService = inject (CartService)
 dialogRef = inject(MatDialogRef<ProductDetailsComponent>)
+
 constructor(@Inject(MAT_DIALOG_DATA) public dialogData : any){
     const htmlString = dialogData.richDescription;
     this.htmlContent = this.sanitizer.bypassSecurityTrustHtml(htmlString);
@@ -58,10 +59,34 @@ addToWishlist(product: any){
 else{}
 }
 addToCart(){
-   console.log("Product details for Cart:  ", this.dialogData)
+
+  let userId = this.tokenService.getUserId()
+   const token = sessionStorage.getItem('token')
+   if(!token){
+    this.responseMsg = 'Please login'
+    this.snackbar.openSnackbar(this.responseMsg, globalProperties.error)
+  }
+  else{
+    console.log("Product details for Cart:  ", this.dialogData)
+    this.cartService.addToCart(userId, this.dialogData).subscribe({
+      next: (res: any) => {
+        this.responseMsg = res?.message
+        this.snackbar.openSnackbar(this.responseMsg,'success')
+        this.cartService.notifyProductAdded();
+      }, 
+      error: (err: any) => {
+        if(err.error?.message){
+          this.responseMsg = err.error?.message
+        }
+        else{
+          this.responseMsg = globalProperties.genericError
+        }
+        this.snackbar.openSnackbar(this.responseMsg, globalProperties.error)
+      }
+    })
+  }
+
 }
-
-
 
 
 

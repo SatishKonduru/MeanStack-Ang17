@@ -34,6 +34,23 @@ router.put('/addToCart/:userId', authenticateToken, async (req, res) => {
     }
 });
 
+//  get cart products for a particular user
+router.get('/getCart/:userId', authenticateToken, async (req, res) => {
+    try {
+        const userId = req.params.userId;
 
+        // Find the user's cart
+        const cart = await Cart.findOne({ user: userId }).populate('items.product');
+
+        if (!cart) {
+            return res.status(404).send({ message: 'Cart not found' });
+        }
+
+        res.status(200).send({ cart: cart });
+    } catch (error) {
+        console.error('Error fetching cart products:', error);
+        res.status(500).send({ message: 'Internal Server Error' });
+    }
+});
 
 module.exports = router

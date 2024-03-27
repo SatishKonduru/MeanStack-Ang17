@@ -8,7 +8,27 @@
             <button mat-icon-button (click)="closeCart()" mat-dialog-close > <mat-icon>close</mat-icon></button>
             </mat-toolbar>
         <!-- Your cart content goes here -->
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsa, minus? Voluptas odit animi temporibus assumenda ratione numquam blanditiis ab, fugiat, optio facere similique, ut cupiditate deleniti laudantium quibusdam est cumque.
+            <table class="table" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for(product of (cartItems$ | async).items; track product){
+                        <tr>
+                            <td>{{product?.product?.brand}}</td>
+                            <td><img src="{{product?.product?.image}}" width="50px" height="50px"></td>
+                            <td>{{product?.product?.price}}</td>
+                        </tr>
+                        
+                    }
+                </tbody>
+            </table>
+           
        
     </div>
 }

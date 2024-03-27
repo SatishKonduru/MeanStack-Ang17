@@ -27,10 +27,10 @@ router.put('/addToCart/:userId', authenticateToken, async (req, res) => {
 
         await cart.save();
 
-        res.status(200).json({ message: 'Product added to cart successfully', cart: cart });
+        res.status(200).send({ message: 'Product added to cart successfully', cart: cart });
     } catch (error) {
         console.error('Error adding product to cart:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).send({ message: 'Internal Server Error' });
     }
 });
 

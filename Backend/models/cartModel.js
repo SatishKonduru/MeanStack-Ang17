@@ -25,7 +25,7 @@ const cartSchema = new mongoose.Schema({
             },
   status: {
             type: String,
-            enum: ['Active', 'Expired', 'Completed'],
+            enum: ['Active',  'Completed'],
             default: 'Active'
         }
 });

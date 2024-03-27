@@ -10,6 +10,20 @@ export interface WishlistItem {
     season: string,
     // Add other properties as needed
 }
+
+export interface CartItems{
+    _id: string,
+    name: string,
+    description: string;
+    image: string,
+    color: string;
+    price: number,
+    size: string,
+    style: string,
+    season: string,
+    quantity: number,
+    total: number
+}
 export interface userModel{
     name: string,
     email: string,
@@ -25,6 +39,7 @@ export interface userModel{
     image? :  string,
     orders? : [string],
     wishlist? : WishlistItem[];
+    cartItems? : CartItems[]
 }
 
 export interface productModel{

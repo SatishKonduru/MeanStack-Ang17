@@ -8,6 +8,7 @@ import { TokenAuthService } from '../../services/tokenAuth.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { globalProperties } from '../../shared/globalProperties';
 import { Router } from '@angular/router';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-details',
@@ -24,6 +25,7 @@ tokenService =inject(TokenAuthService)
 responseMsg : any = ''
 snackbar = inject(SnackbarService)
 router = inject(Router)
+cartService = inject (CartService)
 dialogRef = inject(MatDialogRef<ProductDetailsComponent>)
 constructor(@Inject(MAT_DIALOG_DATA) public dialogData : any){
     const htmlString = dialogData.richDescription;
@@ -54,10 +56,11 @@ addToWishlist(product: any){
   })
 }
 else{}
- 
- 
-
 }
+addToCart(){
+   console.log("Product details for Cart:  ", this.dialogData)
+}
+
 
 
 

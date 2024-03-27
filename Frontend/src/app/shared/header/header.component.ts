@@ -9,6 +9,8 @@ import { UserService } from '../../services/user.service';
 import { CartComponent } from '../../pages/cart/cart.component';
 import { CartService } from '../../services/cart.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { SnackbarService } from '../../services/snackbar.service';
+import { globalProperties } from '../globalProperties';
 
 @Component({
   selector: 'app-header',
@@ -29,7 +31,8 @@ export class HeaderComponent implements  AfterViewChecked{
 
 userToken$ !: Observable<string>
 cartService = inject(CartService)
-
+responseMsg : any = ''
+snackbar = inject(SnackbarService)
 constructor(private _router: Router, private _tokenAuth: TokenAuthService, private cdr: ChangeDetectorRef, private userService: UserService){
 
 }
@@ -48,7 +51,17 @@ onExit(){
 }
 
 openCart(): void {
-  this.cartService.toggleCart();
-}
+  const token = sessionStorage.getItem('token')
+  if(!token){
+      this.responseMsg = 'Please login '
+      this.snackbar.openSnackbar(this.responseMsg, globalProperties.error)
+  }
+  else{
+    this.cartService.toggleCart();
+  }
+  
+  }
+ 
+ 
 
 }

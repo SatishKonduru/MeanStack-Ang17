@@ -32,8 +32,12 @@ export class CartComponent  implements OnInit, AfterViewInit{
 
   }
   ngAfterViewInit(): void {
-    this.cartService.notifyProductAdded();
-    this.getCartItems()
+    // this.cartService.notifyProductAdded();
+    // this.getCartItems()
+      this.cartService.productAdded$.subscribe(() => {
+    // Refresh cart data when notified that a product has been added
+    this.getCartItems();
+  });
   }
   closeCart(): void {
     this.cartService.toggleCart();

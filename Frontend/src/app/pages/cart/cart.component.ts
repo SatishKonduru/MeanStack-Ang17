@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { AngularMaterialModule } from '../../modules/angular-material/angular-material.module';
 import { TokenAuthService } from '../../services/tokenAuth.service';
 import { Observable, map, shareReplay, tap } from 'rxjs';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { CartDetailsComponent } from '../cart-details/cart-details.component';
 
 @Component({
   selector: 'app-cart',
@@ -19,6 +21,7 @@ export class CartComponent  implements OnInit, AfterViewInit{
   userToken = inject(TokenAuthService)
   cartItems$ !: Observable<any>
   cartDetails: any = []
+  dialog = inject (MatDialog)
   ngOnInit(): void {
     this.cartService.isCartOpen().subscribe(open => {
       this.isOpen = open;
@@ -57,6 +60,15 @@ export class CartComponent  implements OnInit, AfterViewInit{
  openCartDetails(){
  this.cartItems$.subscribe(res => this.cartDetails =res)
   console.log("Cart Details for Full View:", this.cartDetails)
+  const dialogConfig = new MatDialogConfig()
+  dialogConfig.data = {
+    data: this.cartDetails
+  }
+  dialogConfig.width = '90%'
+  dialogConfig.height = '600px'
+  dialogConfig.disableClose = true
+  dialogConfig.autoFocus = true
+  this.dialog.open(CartDetailsComponent, dialogConfig)
  }
  
 

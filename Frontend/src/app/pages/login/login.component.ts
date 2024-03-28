@@ -12,6 +12,7 @@ import { TokenAuthService } from '../../services/tokenAuth.service';
 import { map, pipe } from 'rxjs';
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-login',
@@ -38,7 +39,7 @@ responseMsg: string = ''
 payload: any = {}
 timestamp = Date.now();
 dialog = inject(MatDialog)
-
+cartService = inject(CartService)
 constructor(
   private _formBuilder: FormBuilder, 
   private _userService: UserService,
@@ -68,6 +69,7 @@ onLogin(){
         this._router.navigate(['/admin/dashboard'])
       else
         this._router.navigate(['/'])
+        this.cartService.notifyProductAdded();
     },
     error: (err: any) => {
       if(err.error?.message){

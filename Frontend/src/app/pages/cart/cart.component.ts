@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { CommonModule } from '@angular/common';
 import { AngularMaterialModule } from '../../modules/angular-material/angular-material.module';
@@ -12,7 +12,7 @@ import { Observable, map, shareReplay, tap } from 'rxjs';
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
-export class CartComponent  implements OnInit{
+export class CartComponent  implements OnInit, AfterViewInit{
   isOpen: boolean = false;
   cartService = inject(CartService)
   userId : any;
@@ -30,6 +30,10 @@ export class CartComponent  implements OnInit{
     this.getCartItems();
   });
 
+  }
+  ngAfterViewInit(): void {
+    this.cartService.notifyProductAdded();
+    this.getCartItems()
   }
   closeCart(): void {
     this.cartService.toggleCart();
